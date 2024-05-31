@@ -32,7 +32,7 @@ function animateElements(config) {
 
 function resetAndRestart() {
   document.body.innerHTML =
-    '<div id="timer" style="position: fixed; top: 10px; left: 10px; font-size: 20px;"></div>';
+    '<div id="timer" style="position: fixed; top: 10px; left: 10px; font-size: 20px; color:white;"></div>';
   createElements(elementsConfig);
   animateElements(elementsConfig);
   startTime = Date.now();
