@@ -1,110 +1,102 @@
+// scripts/config.js
 export const elementsConfig = [
   {
     id: "div1",
-    content: "I am a triangle",
+    content: "I am a square",
     initialState: {
-      height: "0",
-      width: "0",
-      borderLeft: "10vw solid transparent",
-      borderRight: "10vw solid transparent",
-      borderBottom: "20vh solid lightblue",
+      height: "10vh",
+      width: "10vw",
       top: "10vh",
       left: "10vw",
       position: "absolute",
+      backgroundColor: "lightblue",
     },
     timeline: {
       rotate: {
-        clockwiseDuration: 5000, // 5 seconds
-        anticlockwiseDuration: 5000, // 5 seconds
+        clockwiseDuration: 5000,
+        anticlockwiseDuration: 7000,
       },
-      change: [
-        {
-          time: 10000, // 10 seconds
-          styles: {
-            height: "20vh",
-            width: "20vh",
-            border: "none",
-            borderRadius: "50%",
-            backgroundColor: "lightblue",
-          },
-          content: "I am a circle",
-        },
-        {
-          time: 20000, // 20 seconds
-          styles: {
-            height: "0",
-            width: "0",
-            borderLeft: "10vw solid transparent",
-            borderRight: "10vw solid transparent",
-            borderBottom: "20vh solid lightblue",
-            borderRadius: "0%",
-            backgroundColor: "lightblue",
-          },
-          content: "I am a triangle",
-        },
-      ],
-      duration: 30000, // 30 seconds total
+      duration: 30000,
     },
   },
   {
     id: "div2",
-    content: "I am a square",
+    content: "I am a circle",
     initialState: {
-      height: "60vh",
-      width: "30vw",
-      top: "15vh",
-      left: "15vw",
+      height: "10vh",
+      width: "10vh",
+      borderRadius: "50%",
+      top: "20vh",
+      left: "20vw",
       position: "absolute",
       backgroundColor: "lightcoral",
     },
     timeline: {
-      circle: true,
-      change: [
-        {
-          time: 10000, // 10 seconds
-          styles: {
-            height: "60vh",
-            width: "60vh",
-            borderRadius: "50%",
-          },
-          content: "I am a circle",
-        },
-        {
-          time: 15000, // 15 seconds
-          styles: {
-            backgroundColor: "pink",
-          },
-          content: "I am pink",
-        },
-        {
-          time: 20000, // 20 seconds
-          styles: {
-            backgroundColor: "darkblue",
-          },
-          content: "I am dark blue",
-        },
-      ],
-      duration: 30000, // 30 seconds total
+      rotate: {
+        clockwiseDuration: 4000,
+        anticlockwiseDuration: 6000,
+      },
+      duration: 30000,
     },
   },
   {
     id: "div3",
-    content: "I follow the square",
+    content: "I am a triangle",
     initialState: {
-      height: "10vh",
-      width: "10vw",
-      top: "15vh",
-      left: "15vw",
+      height: "0",
+      width: "0",
+      borderLeft: "5vw solid transparent",
+      borderRight: "5vw solid transparent",
+      borderBottom: "10vh solid lightgreen",
+      top: "30vh",
+      left: "30vw",
       position: "absolute",
-      backgroundColor: "lightgreen",
     },
     timeline: {
-      follow: "div2",
       rotate: {
-        clockwiseDuration: 10000, // 10 seconds
-        anticlockwiseDuration: 3000, // 3 seconds
+        clockwiseDuration: 3000,
+        anticlockwiseDuration: 5000,
       },
-      duration: 30000, // 30 seconds total
+      duration: 30000,
+    },
+  },
+  {
+    id: "div4",
+    content: "I am a rectangle",
+    initialState: {
+      height: "10vh",
+      width: "5vw",
+      top: "40vh",
+      left: "40vw",
+      position: "absolute",
+      backgroundColor: "lightyellow",
+    },
+    timeline: {
+      rotate: {
+        clockwiseDuration: 6000,
+        anticlockwiseDuration: 8000,
+      },
+      duration: 30000,
+    },
+  },
+  {
+    id: "div5",
+    content: "I am an oval",
+    initialState: {
+      height: "10vh",
+      width: "15vw",
+      borderRadius: "50%",
+      top: "50vh",
+      left: "50vw",
+      position: "absolute",
+      backgroundColor: "lightpink",
+    },
+    timeline: {
+      rotate: {
+        clockwiseDuration: 7000,
+        anticlockwiseDuration: 9000,
+      },
+      duration: 30000,
     },
   },
 ];
