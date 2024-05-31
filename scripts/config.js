@@ -1,12 +1,10 @@
-// scripts/config.js
-
-const BPM = 220; // Change this value to your desired BPM
+const BPM = 90;
 const ANIMATION_DURATION = 30000; // Total animation duration in milliseconds
 
 const beatInterval = (60 / BPM) * 1000; // Interval in milliseconds
 const numChanges = Math.ceil(ANIMATION_DURATION / beatInterval); // Number of changes over the entire duration
 
-const randomElementsConfig = generateRandomElements(10, beatInterval);
+const randomElementsConfig = generateRandomElements(20, beatInterval);
 
 export const elementsConfig = [...randomElementsConfig];
 
@@ -34,7 +32,7 @@ function getRandomRotation() {
 
 function getRandomCharacters(length = 10) {
   const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    "----------ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -45,32 +43,32 @@ function getRandomCharacters(length = 10) {
 function getRandomShapeStyles() {
   const shapes = [
     {
-      height: "10vh",
-      width: "10vw",
+      height: `${Math.random() * 20 + 5}vh`,
+      width: `${Math.random() * 20 + 5}vw`,
       backgroundColor: getRandomColor(),
-      borderRadius: "0%",
+      borderRadius: `${Math.random() * 50}%`,
     },
     {
-      height: "10vh",
-      width: "10vh",
+      height: `${Math.random() * 20 + 5}vh`,
+      width: `${Math.random() * 20 + 5}vh`,
       backgroundColor: getRandomColor(),
       borderRadius: "50%",
     },
     {
       height: "0",
       width: "0",
-      borderLeft: "5vw solid transparent",
-      borderRight: "5vw solid transparent",
-      borderBottom: `10vh solid transparent`,
+      borderLeft: `${Math.random() * 10 + 5}vw solid transparent`,
+      borderRight: `${Math.random() * 10 + 5}vw solid transparent`,
+      borderBottom: `${Math.random() * 20 + 5}vh solid transparent`,
     },
     {
-      height: "10vh",
-      width: "5vw",
+      height: `${Math.random() * 20 + 5}vh`,
+      width: `${Math.random() * 10 + 5}vw`,
       backgroundColor: getRandomColor(),
     },
     {
-      height: "10vh",
-      width: "15vw",
+      height: `${Math.random() * 20 + 5}vh`,
+      width: `${Math.random() * 30 + 10}vw`,
       backgroundColor: getRandomColor(),
       borderRadius: "50%",
     },
@@ -79,13 +77,13 @@ function getRandomShapeStyles() {
   const shape = shapes[Math.floor(Math.random() * shapes.length)];
   return {
     ...shape,
-    top: `${Math.random() * 90}vh`,
-    left: `${Math.random() * 90}vw`,
+    top: `${Math.random() * 100}vh`,
+    left: `${Math.random() * 100}vw`,
     opacity: Math.random(),
-    transform: `scale(${Math.random() * 1.5 + 0.5}) skew(${
-      Math.random() * 20 - 10
-    }deg, ${Math.random() * 20 - 10}deg)`,
-    filter: `blur(${Math.random() * 3}px)`,
+    transform: `scale(${Math.random() * 2}) skew(${
+      Math.random() * 60 - 30
+    }deg, ${Math.random() * 30 - 30}deg)`,
+    filter: `blur(${Math.random() * 1}px)`,
   };
 }
 
@@ -132,8 +130,8 @@ function generateRandomElements(num, interval) {
 function getRandomOrbitPath() {
   const centerX = window.innerWidth / 2;
   const centerY = window.innerHeight / 2;
-  const radiusX = Math.random() * (window.innerWidth / 2) + 150;
-  const radiusY = Math.random() * (window.innerHeight / 2) + 150;
+  const radiusX = Math.random() * (window.innerWidth / 2) + 1000;
+  const radiusY = Math.random() * (window.innerHeight / 2) + 1000;
   const speed = Math.random() * 0.01 + 0.005;
 
   return { centerX, centerY, radiusX, radiusY, speed };
