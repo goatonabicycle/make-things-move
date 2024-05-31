@@ -4,7 +4,7 @@ const ANIMATION_DURATION = 30000; // Total animation duration in milliseconds
 const beatInterval = (60 / BPM) * 1000; // Interval in milliseconds
 const numChanges = Math.ceil(ANIMATION_DURATION / beatInterval); // Number of changes over the entire duration
 
-const randomElementsConfig = generateRandomElements(20, beatInterval);
+const randomElementsConfig = generateRandomElements(25, beatInterval);
 
 export const elementsConfig = [...randomElementsConfig];
 
@@ -18,7 +18,7 @@ function getRandomColor() {
 }
 
 function getRandomDuration() {
-  return Math.floor(Math.random() * 3000) + 1000; // Between 1 and 4 seconds
+  return Math.floor(Math.random() * 20000) + 1000;
 }
 
 function getRandomRotation() {
