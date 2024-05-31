@@ -14,12 +14,12 @@ export const elementsConfig = [
     },
     timeline: {
       rotate: {
-        clockwiseDuration: 5 * 1000, // 5 seconds
-        anticlockwiseDuration: 5 * 1000, // 5 seconds
+        clockwiseDuration: 5000, // 5 seconds
+        anticlockwiseDuration: 5000, // 5 seconds
       },
       change: [
         {
-          time: 10 * 1000, // 10 seconds
+          time: 10000, // 10 seconds
           styles: {
             height: "20vh",
             width: "20vh",
@@ -30,7 +30,7 @@ export const elementsConfig = [
           content: "I am a circle",
         },
         {
-          time: 20 * 1000, // 20 seconds
+          time: 20000, // 20 seconds
           styles: {
             height: "0",
             width: "0",
@@ -43,7 +43,7 @@ export const elementsConfig = [
           content: "I am a triangle",
         },
       ],
-      duration: 30 * 1000, // 30 seconds total
+      duration: 30000, // 30 seconds total
     },
   },
   {
@@ -61,7 +61,7 @@ export const elementsConfig = [
       circle: true,
       change: [
         {
-          time: 10 * 1000, // 10 seconds
+          time: 10000, // 10 seconds
           styles: {
             height: "60vh",
             width: "60vh",
@@ -70,21 +70,21 @@ export const elementsConfig = [
           content: "I am a circle",
         },
         {
-          time: 15 * 1000, // 15 seconds
+          time: 15000, // 15 seconds
           styles: {
             backgroundColor: "pink",
           },
           content: "I am pink",
         },
         {
-          time: 20 * 1000, // 20 seconds
+          time: 20000, // 20 seconds
           styles: {
             backgroundColor: "darkblue",
           },
           content: "I am dark blue",
         },
       ],
-      duration: 30 * 1000, // 30 seconds total
+      duration: 30000, // 30 seconds total
     },
   },
   {
@@ -101,10 +101,10 @@ export const elementsConfig = [
     timeline: {
       follow: "div2",
       rotate: {
-        clockwiseDuration: 10 * 1000, // 10 seconds
-        anticlockwiseDuration: 3 * 1000, // 3 seconds
+        clockwiseDuration: 10000, // 10 seconds
+        anticlockwiseDuration: 3000, // 3 seconds
       },
-      duration: 30 * 1000, // 30 seconds total
+      duration: 30000, // 30 seconds total
     },
   },
 ];
