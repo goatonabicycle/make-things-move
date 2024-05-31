@@ -22,6 +22,8 @@ export function animateRotation(
   clockwiseDuration = 5 * 1000,
   anticlockwiseDuration = 5 * 1000
 ) {
+  if (!clockwiseDuration || !anticlockwiseDuration) return;
+
   let rotationStartTime = Date.now();
   let clockwise = true;
 
@@ -64,28 +66,18 @@ export function handleTimeBasedChanges(
   }, duration);
 }
 
-export function makeElementFollow(item) {
-  const follower = document.getElementById(item.id);
-  const target = document.getElementById(item.timeline.follow);
-  let previousPositions = [];
+export function animateOrbit(element, orbit) {
+  const { centerX, centerY, radiusX, radiusY, speed } = orbit;
+  let startTime = Date.now();
 
-  const follow = () => {
-    const currentPos = {
-      top: target.style.top,
-      left: target.style.left,
-    };
-
-    previousPositions.push(currentPos);
-
-    if (previousPositions.length > 20) {
-      const pos = previousPositions.shift();
-      follower.style.transition = "all 0.1s linear";
-      follower.style.top = pos.top;
-      follower.style.left = pos.left;
-    }
-
-    requestAnimationFrame(follow);
+  const animate = () => {
+    const elapsed = Date.now() - startTime;
+    const angle = elapsed * speed;
+    const x = centerX + radiusX * Math.cos(angle) - element.offsetWidth / 2;
+    const y = centerY + radiusY * Math.sin(angle) - element.offsetHeight / 2;
+    element.style.left = `${x}px`;
+    element.style.top = `${y}px`;
+    requestAnimationFrame(animate);
   };
-
-  follow();
+  animate();
 }

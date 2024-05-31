@@ -4,7 +4,7 @@ import {
   animateCircle,
   animateRotation,
   handleTimeBasedChanges,
-  makeElementFollow,
+  animateOrbit,
 } from "./animations.js";
 
 let startTime;
@@ -12,15 +12,12 @@ let startTime;
 function animateElements(config) {
   config.forEach((item) => {
     const element = document.getElementById(item.id);
-    if (item.timeline.circle) {
-      animateCircle(element, item.timeline.duration, startTime);
-    }
     if (item.timeline.rotate) {
       const { clockwiseDuration, anticlockwiseDuration } = item.timeline.rotate;
       animateRotation(element, clockwiseDuration, anticlockwiseDuration);
     }
-    if (item.timeline.follow) {
-      makeElementFollow(item);
+    if (item.timeline.orbit) {
+      animateOrbit(element, item.timeline.orbit);
     }
     if (item.timeline.change) {
       handleTimeBasedChanges(

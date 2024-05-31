@@ -1,890 +1,140 @@
-export const elementsConfig = [
-  {
-    id: "div1",
-    content: "I am a square",
-    initialState: {
+// scripts/config.js
+
+const BPM = 220; // Change this value to your desired BPM
+const ANIMATION_DURATION = 30000; // Total animation duration in milliseconds
+
+const beatInterval = (60 / BPM) * 1000; // Interval in milliseconds
+const numChanges = Math.ceil(ANIMATION_DURATION / beatInterval); // Number of changes over the entire duration
+
+const randomElementsConfig = generateRandomElements(10, beatInterval);
+
+export const elementsConfig = [...randomElementsConfig];
+
+function getRandomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function getRandomDuration() {
+  return Math.floor(Math.random() * 3000) + 1000; // Between 1 and 4 seconds
+}
+
+function getRandomRotation() {
+  return Math.random() > 0.5
+    ? {
+        clockwiseDuration: getRandomDuration(),
+        anticlockwiseDuration: getRandomDuration(),
+      }
+    : null;
+}
+
+function getRandomCharacters(length = 10) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
+function getRandomShapeStyles() {
+  const shapes = [
+    {
       height: "10vh",
       width: "10vw",
-      top: "10vh",
-      left: "10vw",
-      position: "absolute",
-      backgroundColor: "lightblue",
-      transition: "all 1s ease",
+      backgroundColor: getRandomColor(),
+      borderRadius: "0%",
     },
-    timeline: {
-      rotate: {
-        clockwiseDuration: 5000,
-        anticlockwiseDuration: 7000,
-      },
-      change: [
-        {
-          time: 2000,
-          styles: {
-            backgroundColor: "orange",
-            border: "5px solid red",
-            top: "15vh",
-            left: "30vw",
-          },
-          content: "I am orange",
-        },
-        {
-          time: 4000,
-          styles: {
-            height: "15vh",
-            width: "15vw",
-            backgroundColor: "purple",
-            borderRadius: "50%",
-            top: "25vh",
-            left: "35vw",
-          },
-          content: "I am a circle",
-        },
-        {
-          time: 6000,
-          styles: {
-            backgroundColor: "green",
-            transform: "rotate(45deg)",
-            top: "35vh",
-            left: "40vw",
-          },
-          content: "I am rotated",
-        },
-        {
-          time: 8000,
-          styles: {
-            border: "10px dashed black",
-            backgroundColor: "pink",
-            top: "45vh",
-            left: "45vw",
-          },
-          content: "I am pink",
-        },
-        {
-          time: 10000,
-          styles: {
-            borderRadius: "0%",
-            backgroundColor: "blue",
-            height: "12vh",
-            width: "8vw",
-            top: "50vh",
-            left: "50vw",
-          },
-          content: "I am a rectangle",
-        },
-        {
-          time: 12000,
-          styles: {
-            borderRadius: "20%",
-            backgroundColor: "yellow",
-            height: "14vh",
-            width: "10vw",
-            top: "55vh",
-            left: "55vw",
-          },
-          content: "I am a different shape",
-        },
-        {
-          time: 14000,
-          styles: {
-            border: "3px dotted green",
-            backgroundColor: "purple",
-            top: "60vh",
-            left: "40vw",
-          },
-          content: "I am purple",
-        },
-        {
-          time: 16000,
-          styles: {
-            height: "10vh",
-            width: "20vw",
-            backgroundColor: "lightblue",
-            border: "none",
-            top: "45vh",
-            left: "30vw",
-          },
-          content: "I am lightblue",
-        },
-        {
-          time: 18000,
-          styles: {
-            borderRadius: "0%",
-            backgroundColor: "brown",
-            height: "8vh",
-            width: "15vw",
-            top: "35vh",
-            left: "25vw",
-          },
-          content: "I am brown",
-        },
-        {
-          time: 20000,
-          styles: {
-            borderRadius: "50%",
-            backgroundColor: "red",
-            height: "10vh",
-            width: "10vw",
-            top: "25vh",
-            left: "20vw",
-          },
-          content: "I am red",
-        },
-        {
-          time: 22000,
-          styles: {
-            backgroundColor: "lightgreen",
-            border: "4px solid darkgreen",
-            height: "12vh",
-            width: "12vw",
-            top: "20vh",
-            left: "30vw",
-          },
-          content: "I am lightgreen",
-        },
-        {
-          time: 24000,
-          styles: {
-            height: "15vh",
-            width: "20vw",
-            backgroundColor: "lightpink",
-            borderRadius: "50%",
-            top: "30vh",
-            left: "40vw",
-          },
-          content: "I am a circle again",
-        },
-        {
-          time: 26000,
-          styles: {
-            backgroundColor: "cyan",
-            border: "2px solid navy",
-            height: "10vh",
-            width: "10vw",
-            top: "40vh",
-            left: "50vw",
-          },
-          content: "I am cyan",
-        },
-        {
-          time: 28000,
-          styles: {
-            borderRadius: "25%",
-            backgroundColor: "magenta",
-            height: "12vh",
-            width: "8vw",
-            top: "50vh",
-            left: "60vw",
-          },
-          content: "I am magenta",
-        },
-      ],
-      duration: 30000,
-    },
-  },
-  {
-    id: "div2",
-    content: "I am a circle",
-    initialState: {
+    {
       height: "10vh",
       width: "10vh",
+      backgroundColor: getRandomColor(),
       borderRadius: "50%",
-      top: "20vh",
-      left: "20vw",
-      position: "absolute",
-      backgroundColor: "lightcoral",
-      transition: "all 1s ease",
     },
-    timeline: {
-      rotate: {
-        clockwiseDuration: 4000,
-        anticlockwiseDuration: 6000,
-      },
-      change: [
-        {
-          time: 2000,
-          styles: {
-            backgroundColor: "yellow",
-            border: "3px dotted green",
-            top: "25vh",
-            left: "25vw",
-          },
-          content: "I am yellow",
-        },
-        {
-          time: 4000,
-          styles: {
-            height: "15vh",
-            width: "15vh",
-            backgroundColor: "lightgreen",
-            top: "30vh",
-            left: "30vw",
-          },
-          content: "I am bigger",
-        },
-        {
-          time: 6000,
-          styles: {
-            backgroundColor: "blue",
-            border: "5px solid pink",
-            top: "35vh",
-            left: "35vw",
-          },
-          content: "I am blue",
-        },
-        {
-          time: 8000,
-          styles: {
-            borderRadius: "0%",
-            height: "20vh",
-            width: "10vw",
-            backgroundColor: "lightyellow",
-            top: "40vh",
-            left: "40vw",
-          },
-          content: "I am a rectangle",
-        },
-        {
-          time: 10000,
-          styles: {
-            borderRadius: "50%",
-            height: "10vh",
-            width: "10vh",
-            backgroundColor: "lightcoral",
-            top: "45vh",
-            left: "45vw",
-          },
-          content: "I am a circle again",
-        },
-        {
-          time: 12000,
-          styles: {
-            backgroundColor: "purple",
-            height: "8vh",
-            width: "8vh",
-            top: "50vh",
-            left: "30vw",
-          },
-          content: "I am purple",
-        },
-        {
-          time: 14000,
-          styles: {
-            backgroundColor: "orange",
-            height: "12vh",
-            width: "12vh",
-            top: "35vh",
-            left: "25vw",
-          },
-          content: "I am orange",
-        },
-        {
-          time: 16000,
-          styles: {
-            backgroundColor: "pink",
-            height: "10vh",
-            width: "10vh",
-            top: "40vh",
-            left: "35vw",
-          },
-          content: "I am pink",
-        },
-        {
-          time: 18000,
-          styles: {
-            backgroundColor: "cyan",
-            height: "10vh",
-            width: "10vh",
-            top: "30vh",
-            left: "45vw",
-          },
-          content: "I am cyan",
-        },
-        {
-          time: 20000,
-          styles: {
-            backgroundColor: "lightblue",
-            height: "10vh",
-            width: "10vh",
-            top: "35vh",
-            left: "40vw",
-          },
-          content: "I am lightblue",
-        },
-        {
-          time: 22000,
-          styles: {
-            backgroundColor: "magenta",
-            height: "12vh",
-            width: "12vh",
-            top: "40vh",
-            left: "50vw",
-          },
-          content: "I am magenta",
-        },
-        {
-          time: 24000,
-          styles: {
-            backgroundColor: "lightgreen",
-            height: "10vh",
-            width: "10vh",
-            top: "45vh",
-            left: "60vw",
-          },
-          content: "I am lightgreen",
-        },
-        {
-          time: 26000,
-          styles: {
-            backgroundColor: "purple",
-            height: "12vh",
-            width: "12vh",
-            top: "50vh",
-            left: "70vw",
-          },
-          content: "I am purple",
-        },
-        {
-          time: 28000,
-          styles: {
-            backgroundColor: "blue",
-            height: "10vh",
-            width: "10vh",
-            top: "55vh",
-            left: "80vw",
-          },
-          content: "I am blue",
-        },
-      ],
-      duration: 30000,
-    },
-  },
-  {
-    id: "div3",
-    content: "I am a triangle",
-    initialState: {
+    {
       height: "0",
       width: "0",
       borderLeft: "5vw solid transparent",
       borderRight: "5vw solid transparent",
-      borderBottom: "10vh solid lightgreen",
-      top: "30vh",
-      left: "30vw",
-      position: "absolute",
-      transition: "all 1s ease",
+      borderBottom: `10vh solid transparent`,
     },
-    timeline: {
-      rotate: {
-        clockwiseDuration: 3000,
-        anticlockwiseDuration: 5000,
-      },
-      change: [
-        {
-          time: 2000,
-          styles: {
-            borderBottom: "10vh solid red",
-            borderLeft: "5vw solid transparent",
-            borderRight: "5vw solid transparent",
-            top: "35vh",
-            left: "35vw",
-          },
-          content: "I am red",
-        },
-        {
-          time: 4000,
-          styles: {
-            borderLeft: "10vw solid transparent",
-            borderRight: "10vw solid transparent",
-            borderBottom: "20vh solid purple",
-            top: "40vh",
-            left: "40vw",
-          },
-          content: "I am bigger",
-        },
-        {
-          time: 6000,
-          styles: {
-            backgroundColor: "transparent",
-            borderBottom: "10vh solid blue",
-            top: "45vh",
-            left: "45vw",
-          },
-          content: "I am blue",
-        },
-        {
-          time: 8000,
-          styles: {
-            borderLeft: "10vw solid transparent",
-            borderRight: "10vw solid transparent",
-            borderBottom: "20vh solid green",
-            transform: "rotate(90deg)",
-            top: "50vh",
-            left: "50vw",
-          },
-          content: "I am rotated",
-        },
-        {
-          time: 10000,
-          styles: {
-            borderBottom: "10vh solid lightgreen",
-            borderLeft: "5vw solid transparent",
-            borderRight: "5vw solid transparent",
-            top: "55vh",
-            left: "55vw",
-          },
-          content: "I am a triangle again",
-        },
-        {
-          time: 12000,
-          styles: {
-            borderBottom: "8vh solid orange",
-            borderLeft: "4vw solid transparent",
-            borderRight: "4vw solid transparent",
-            top: "60vh",
-            left: "40vw",
-          },
-          content: "I am orange",
-        },
-        {
-          time: 14000,
-          styles: {
-            borderBottom: "12vh solid purple",
-            borderLeft: "6vw solid transparent",
-            borderRight: "6vw solid transparent",
-            top: "65vh",
-            left: "35vw",
-          },
-          content: "I am bigger",
-        },
-        {
-          time: 16000,
-          styles: {
-            borderBottom: "10vh solid yellow",
-            borderLeft: "5vw solid transparent",
-            borderRight: "5vw solid transparent",
-            top: "60vh",
-            left: "30vw",
-          },
-          content: "I am yellow",
-        },
-        {
-          time: 18000,
-          styles: {
-            borderBottom: "10vh solid cyan",
-            borderLeft: "5vw solid transparent",
-            borderRight: "5vw solid transparent",
-            top: "50vh",
-            left: "35vw",
-          },
-          content: "I am cyan",
-        },
-        {
-          time: 20000,
-          styles: {
-            borderBottom: "8vh solid magenta",
-            borderLeft: "4vw solid transparent",
-            borderRight: "4vw solid transparent",
-            top: "40vh",
-            left: "30vw",
-          },
-          content: "I am magenta",
-        },
-        {
-          time: 22000,
-          styles: {
-            borderBottom: "12vh solid blue",
-            borderLeft: "6vw solid transparent",
-            borderRight: "6vw solid transparent",
-            top: "30vh",
-            left: "40vw",
-          },
-          content: "I am bigger",
-        },
-        {
-          time: 24000,
-          styles: {
-            borderBottom: "10vh solid pink",
-            borderLeft: "5vw solid transparent",
-            borderRight: "5vw solid transparent",
-            top: "35vh",
-            left: "50vw",
-          },
-          content: "I am pink",
-        },
-        {
-          time: 26000,
-          styles: {
-            borderBottom: "8vh solid green",
-            borderLeft: "4vw solid transparent",
-            borderRight: "4vw solid transparent",
-            top: "40vh",
-            left: "60vw",
-          },
-          content: "I am green",
-        },
-        {
-          time: 28000,
-          styles: {
-            borderBottom: "12vh solid lightblue",
-            borderLeft: "6vw solid transparent",
-            borderRight: "6vw solid transparent",
-            top: "45vh",
-            left: "70vw",
-          },
-          content: "I am lightblue",
-        },
-      ],
-      duration: 30000,
-    },
-  },
-  {
-    id: "div4",
-    content: "I am a rectangle",
-    initialState: {
+    {
       height: "10vh",
       width: "5vw",
-      top: "40vh",
-      left: "40vw",
-      position: "absolute",
-      backgroundColor: "lightyellow",
-      transition: "all 1s ease",
+      backgroundColor: getRandomColor(),
     },
-    timeline: {
-      rotate: {
-        clockwiseDuration: 6000,
-        anticlockwiseDuration: 8000,
-      },
-      change: [
-        {
-          time: 2000,
-          styles: {
-            backgroundColor: "lightblue",
-            border: "2px solid red",
-            top: "45vh",
-            left: "35vw",
-          },
-          content: "I am lightblue",
-        },
-        {
-          time: 4000,
-          styles: {
-            height: "15vh",
-            width: "7vw",
-            backgroundColor: "orange",
-            top: "50vh",
-            left: "30vw",
-          },
-          content: "I am bigger",
-        },
-        {
-          time: 6000,
-          styles: {
-            backgroundColor: "purple",
-            border: "4px dashed green",
-            top: "55vh",
-            left: "25vw",
-          },
-          content: "I am purple",
-        },
-        {
-          time: 8000,
-          styles: {
-            height: "10vh",
-            width: "5vw",
-            backgroundColor: "brown",
-            top: "60vh",
-            left: "20vw",
-          },
-          content: "I am brown",
-        },
-        {
-          time: 10000,
-          styles: {
-            border: "none",
-            backgroundColor: "lightyellow",
-            top: "65vh",
-            left: "30vw",
-          },
-          content: "I am a rectangle again",
-        },
-        {
-          time: 12000,
-          styles: {
-            backgroundColor: "lightgreen",
-            height: "12vh",
-            width: "6vw",
-            top: "70vh",
-            left: "40vw",
-          },
-          content: "I am lightgreen",
-        },
-        {
-          time: 14000,
-          styles: {
-            backgroundColor: "cyan",
-            height: "8vh",
-            width: "4vw",
-            top: "75vh",
-            left: "50vw",
-          },
-          content: "I am cyan",
-        },
-        {
-          time: 16000,
-          styles: {
-            backgroundColor: "pink",
-            height: "10vh",
-            width: "5vw",
-            top: "70vh",
-            left: "60vw",
-          },
-          content: "I am pink",
-        },
-        {
-          time: 18000,
-          styles: {
-            backgroundColor: "blue",
-            height: "15vh",
-            width: "7vw",
-            top: "65vh",
-            left: "70vw",
-          },
-          content: "I am blue",
-        },
-        {
-          time: 20000,
-          styles: {
-            backgroundColor: "red",
-            height: "10vh",
-            width: "5vw",
-            top: "60vh",
-            left: "80vw",
-          },
-          content: "I am red",
-        },
-        {
-          time: 22000,
-          styles: {
-            backgroundColor: "orange",
-            height: "12vh",
-            width: "6vw",
-            top: "55vh",
-            left: "70vw",
-          },
-          content: "I am orange",
-        },
-        {
-          time: 24000,
-          styles: {
-            backgroundColor: "purple",
-            height: "8vh",
-            width: "4vw",
-            top: "50vh",
-            left: "60vw",
-          },
-          content: "I am purple",
-        },
-        {
-          time: 26000,
-          styles: {
-            backgroundColor: "yellow",
-            height: "15vh",
-            width: "7vw",
-            top: "45vh",
-            left: "50vw",
-          },
-          content: "I am yellow",
-        },
-        {
-          time: 28000,
-          styles: {
-            backgroundColor: "brown",
-            height: "10vh",
-            width: "5vw",
-            top: "40vh",
-            left: "40vw",
-          },
-          content: "I am brown",
-        },
-      ],
-      duration: 30000,
-    },
-  },
-  {
-    id: "div5",
-    content: "I am an oval",
-    initialState: {
+    {
       height: "10vh",
       width: "15vw",
+      backgroundColor: getRandomColor(),
       borderRadius: "50%",
-      top: "50vh",
-      left: "50vw",
-      position: "absolute",
-      backgroundColor: "lightpink",
-      transition: "all 1s ease",
     },
-    timeline: {
-      rotate: {
-        clockwiseDuration: 7000,
-        anticlockwiseDuration: 9000,
+  ];
+
+  const shape = shapes[Math.floor(Math.random() * shapes.length)];
+  return {
+    ...shape,
+    top: `${Math.random() * 90}vh`,
+    left: `${Math.random() * 90}vw`,
+    opacity: Math.random(),
+    transform: `scale(${Math.random() * 1.5 + 0.5}) skew(${
+      Math.random() * 20 - 10
+    }deg, ${Math.random() * 20 - 10}deg)`,
+    filter: `blur(${Math.random() * 3}px)`,
+  };
+}
+
+function getRandomChanges(numChanges, interval) {
+  const changes = [];
+  for (let i = 0; i < numChanges; i++) {
+    const multiple = Math.pow(2, Math.floor(Math.random() * 3)); // 1x, 2x, or 4x
+    changes.push({
+      time: i * interval * multiple,
+      styles: {
+        ...getRandomShapeStyles(),
+        zIndex: Math.floor(Math.random() * 10) + 1,
+        transition: "all 0.5s ease-in-out",
       },
-      change: [
-        {
-          time: 2000,
-          styles: {
-            backgroundColor: "yellow",
-            border: "2px solid blue",
-            top: "55vh",
-            left: "55vw",
-          },
-          content: "I am yellow",
-        },
-        {
-          time: 4000,
-          styles: {
-            height: "15vh",
-            width: "20vw",
-            backgroundColor: "green",
-            top: "60vh",
-            left: "60vw",
-          },
-          content: "I am bigger",
-        },
-        {
-          time: 6000,
-          styles: {
-            borderRadius: "0%",
-            height: "10vh",
-            width: "15vw",
-            backgroundColor: "red",
-            top: "65vh",
-            left: "65vw",
-          },
-          content: "I am red",
-        },
-        {
-          time: 8000,
-          styles: {
-            height: "5vh",
-            width: "25vw",
-            backgroundColor: "blue",
-            top: "70vh",
-            left: "70vw",
-          },
-          content: "I am a different shape",
-        },
-        {
-          time: 10000,
-          styles: {
-            borderRadius: "50%",
-            height: "10vh",
-            width: "15vw",
-            backgroundColor: "lightpink",
-            top: "75vh",
-            left: "75vw",
-          },
-          content: "I am an oval again",
-        },
-        {
-          time: 12000,
-          styles: {
-            backgroundColor: "purple",
-            height: "8vh",
-            width: "12vw",
-            top: "70vh",
-            left: "60vw",
-          },
-          content: "I am purple",
-        },
-        {
-          time: 14000,
-          styles: {
-            backgroundColor: "orange",
-            height: "14vh",
-            width: "14vw",
-            top: "65vh",
-            left: "50vw",
-          },
-          content: "I am orange",
-        },
-        {
-          time: 16000,
-          styles: {
-            backgroundColor: "pink",
-            height: "10vh",
-            width: "20vw",
-            top: "60vh",
-            left: "40vw",
-          },
-          content: "I am pink",
-        },
-        {
-          time: 18000,
-          styles: {
-            backgroundColor: "cyan",
-            height: "10vh",
-            width: "15vw",
-            top: "55vh",
-            left: "30vw",
-          },
-          content: "I am cyan",
-        },
-        {
-          time: 20000,
-          styles: {
-            backgroundColor: "lightblue",
-            height: "10vh",
-            width: "12vw",
-            top: "50vh",
-            left: "20vw",
-          },
-          content: "I am lightblue",
-        },
-        {
-          time: 22000,
-          styles: {
-            backgroundColor: "magenta",
-            height: "12vh",
-            width: "18vw",
-            top: "45vh",
-            left: "30vw",
-          },
-          content: "I am magenta",
-        },
-        {
-          time: 24000,
-          styles: {
-            backgroundColor: "lightgreen",
-            height: "10vh",
-            width: "15vw",
-            top: "40vh",
-            left: "40vw",
-          },
-          content: "I am lightgreen",
-        },
-        {
-          time: 26000,
-          styles: {
-            backgroundColor: "purple",
-            height: "12vh",
-            width: "20vw",
-            top: "35vh",
-            left: "50vw",
-          },
-          content: "I am purple",
-        },
-        {
-          time: 28000,
-          styles: {
-            backgroundColor: "blue",
-            height: "10vh",
-            width: "10vw",
-            top: "30vh",
-            left: "60vw",
-          },
-          content: "I am blue",
-        },
-      ],
-      duration: 30000,
-    },
-  },
-];
+      content: getRandomCharacters(),
+    });
+  }
+  return changes;
+}
+
+function generateRandomElements(num, interval) {
+  const elements = [];
+  for (let i = 0; i < num; i++) {
+    elements.push({
+      id: `div${i + 2}`,
+      content: getRandomCharacters(),
+      initialState: {
+        ...getRandomShapeStyles(),
+        position: "absolute",
+        transition: "all 0.5s ease-in-out",
+        zIndex: 1,
+      },
+      timeline: {
+        rotate: getRandomRotation(),
+        change: getRandomChanges(numChanges, interval),
+        orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
+        duration: ANIMATION_DURATION,
+      },
+    });
+  }
+  return elements;
+}
+
+function getRandomOrbitPath() {
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  const radiusX = Math.random() * (window.innerWidth / 2) + 150;
+  const radiusY = Math.random() * (window.innerHeight / 2) + 150;
+  const speed = Math.random() * 0.01 + 0.005;
+
+  return { centerX, centerY, radiusX, radiusY, speed };
+}
