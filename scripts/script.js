@@ -1,4 +1,6 @@
-import { elementsConfigs } from "./config.js";
+import config1 from "./config/config1.js";
+import config2 from "./config/config2.js";
+import config3 from "./config/config3.js";
 import { createElements } from "./utils.js";
 import {
   animateCircle,
@@ -9,6 +11,7 @@ import {
 
 let startTime;
 let currentConfigIndex = 0;
+const configs = [config1, config2, config3];
 
 function animateElements(config) {
   config.forEach((item) => {
@@ -34,8 +37,8 @@ function animateElements(config) {
 function resetAndRestart() {
   const elements = document.querySelectorAll(".centered-text");
   elements.forEach((element) => element.remove());
-  createElements(elementsConfigs[currentConfigIndex]);
-  animateElements(elementsConfigs[currentConfigIndex]);
+  createElements(configs[currentConfigIndex].config);
+  animateElements(configs[currentConfigIndex].config);
   startTime = Date.now();
 }
 
@@ -56,10 +59,9 @@ function createDropdown() {
   const dropdown = document.createElement("select");
   dropdown.id = "configSelector";
   dropdown.className = "dropdown";
-  dropdown.innerHTML = `
-    <option value="0">Configuration 1</option>
-    <option value="1">Configuration 2</option>
-  `;
+  dropdown.innerHTML = configs
+    .map((config, index) => `<option value="${index}">${config.name}</option>`)
+    .join("");
   dropdown.addEventListener("change", handleConfigChange);
   return dropdown;
 }
@@ -67,12 +69,12 @@ function createDropdown() {
 window.onload = () => {
   startTime = Date.now();
   document.body.appendChild(createDropdown());
-  createElements(elementsConfigs[currentConfigIndex]);
-  animateElements(elementsConfigs[currentConfigIndex]);
+  createElements(configs[currentConfigIndex].config);
+  animateElements(configs[currentConfigIndex].config);
   updateTimer();
   const maxDuration = Math.max(
-    ...elementsConfigs
-      .map((config) => config.map((item) => item.timeline.duration))
+    ...configs
+      .map((config) => config.config.map((item) => item.timeline.duration))
       .flat()
   );
   setInterval(resetAndRestart, maxDuration);

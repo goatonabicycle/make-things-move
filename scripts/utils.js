@@ -1,5 +1,3 @@
-// scripts/utils.js
-
 export function applyInitialState(element, state) {
   for (const [key, value] of Object.entries(state)) {
     element.style[key] = value;
@@ -97,14 +95,14 @@ export function getRandomRetroShapeStyles() {
   };
 }
 
-export function getRandomChanges(numChanges, interval) {
+export function getRandomChanges(numChanges, interval, shapeStylesFn) {
   const changes = [];
   for (let i = 0; i < numChanges; i++) {
     const multiple = Math.pow(2, Math.floor(Math.random() * 3)); // 1x, 2x, or 4x
     changes.push({
       time: i * interval * multiple,
       styles: {
-        ...getRandomRetroShapeStyles(),
+        ...shapeStylesFn(),
         zIndex: Math.floor(Math.random() * 10) + 1,
         transition: "all 0.5s ease-in-out",
       },
