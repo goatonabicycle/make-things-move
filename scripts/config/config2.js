@@ -59,7 +59,7 @@ export default {
   config: config2,
   styles: `
     body {
-      background-color: red;         
+      background-color: brown;         
     }   
   `,
 };

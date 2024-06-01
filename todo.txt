@@ -1,0 +1,15 @@
+- Random phrases
+- Better text visibility
+- Many more scenes and styles
+- Fonts per config
+- BPM as overall input
+- Sentence to config generation
+- More animations
+  - Move in square
+  - Move left, right, up, down
+  - Bounce
+- React to inputs
+  - Key press
+  - Mouse movements/clicks
+  - Other elements
+- Can I use some sort of 3d mechanism?
