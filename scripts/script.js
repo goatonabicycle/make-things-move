@@ -1,4 +1,4 @@
-import { elementsConfig } from "./config.js";
+import { elementsConfigs } from "./config.js";
 import { createElements } from "./utils.js";
 import {
   animateCircle,
@@ -8,6 +8,7 @@ import {
 } from "./animations.js";
 
 let startTime;
+let currentConfigIndex = 0;
 
 function animateElements(config) {
   config.forEach((item) => {
@@ -31,10 +32,10 @@ function animateElements(config) {
 }
 
 function resetAndRestart() {
-  document.body.innerHTML =
-    '<div id="timer" style="position: fixed; top: 10px; left: 10px; font-size: 20px; color:white;"></div>';
-  createElements(elementsConfig);
-  animateElements(elementsConfig);
+  const elements = document.querySelectorAll(".centered-text");
+  elements.forEach((element) => element.remove());
+  createElements(elementsConfigs[currentConfigIndex]);
+  animateElements(elementsConfigs[currentConfigIndex]);
   startTime = Date.now();
 }
 
@@ -46,13 +47,33 @@ function updateTimer() {
   requestAnimationFrame(updateTimer);
 }
 
+function handleConfigChange(event) {
+  currentConfigIndex = parseInt(event.target.value, 10);
+  resetAndRestart();
+}
+
+function createDropdown() {
+  const dropdown = document.createElement("select");
+  dropdown.id = "configSelector";
+  dropdown.className = "dropdown";
+  dropdown.innerHTML = `
+    <option value="0">Configuration 1</option>
+    <option value="1">Configuration 2</option>
+  `;
+  dropdown.addEventListener("change", handleConfigChange);
+  return dropdown;
+}
+
 window.onload = () => {
   startTime = Date.now();
-  createElements(elementsConfig);
-  animateElements(elementsConfig);
+  document.body.appendChild(createDropdown());
+  createElements(elementsConfigs[currentConfigIndex]);
+  animateElements(elementsConfigs[currentConfigIndex]);
   updateTimer();
   const maxDuration = Math.max(
-    ...elementsConfig.map((item) => item.timeline.duration)
+    ...elementsConfigs
+      .map((config) => config.map((item) => item.timeline.duration))
+      .flat()
   );
   setInterval(resetAndRestart, maxDuration);
 };

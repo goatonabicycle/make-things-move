@@ -26,6 +26,12 @@
         position: absolute;
         transition: all 0.5s ease-in-out;
       }
+      .dropdown {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+      }
     </style>
     <link
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
@@ -41,6 +47,12 @@
         font-size: 20px;
         color: white;
       "></div>
+    <select
+      id="configSelector"
+      class="dropdown">
+      <option value="0">Configuration 1</option>
+      <option value="1">Configuration 2</option>
+    </select>
     <script
       type="module"
       src="/scripts/script.js"></script>
