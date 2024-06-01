@@ -1,6 +1,7 @@
 import config1 from "./config/config1.js";
 import config2 from "./config/config2.js";
 import config3 from "./config/config3.js";
+import config4 from "./config/config4.js";
 import { createElements } from "./utils.js";
 import {
   animateCircle,
@@ -11,7 +12,13 @@ import {
 
 let startTime;
 let currentConfigIndex = 0;
-const configs = [config1, config2, config3];
+const configs = [config1, config2, config3, config4];
+
+function applyConfigStyles(config) {
+  const styleElement = document.createElement("style");
+  styleElement.innerHTML = config.styles;
+  document.head.appendChild(styleElement);
+}
 
 function animateElements(config) {
   config.forEach((item) => {
@@ -38,6 +45,7 @@ function resetAndRestart() {
   const elements = document.querySelectorAll(".centered-text");
   elements.forEach((element) => element.remove());
   createElements(configs[currentConfigIndex].config);
+  applyConfigStyles(configs[currentConfigIndex]);
   animateElements(configs[currentConfigIndex].config);
   startTime = Date.now();
 }
@@ -69,6 +77,7 @@ function createDropdown() {
 window.onload = () => {
   startTime = Date.now();
   document.body.appendChild(createDropdown());
+  applyConfigStyles(configs[currentConfigIndex]);
   createElements(configs[currentConfigIndex].config);
   animateElements(configs[currentConfigIndex].config);
   updateTimer();

@@ -2,7 +2,6 @@ import {
   getRandomCharacters,
   getRandomChanges,
   getRandomOrbitPath,
-  getRandomDuration,
 } from "../utils.js";
 
 const BPM = 90;
@@ -56,6 +55,11 @@ function getCircleStyles() {
 }
 
 export default {
-  name: "Atoms I Guess",
+  name: "Jigglin",
   config: config2,
+  styles: `
+    body {
+      background-color: red;         
+    }   
+  `,
 };

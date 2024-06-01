@@ -1,19 +1,18 @@
 import {
   getRandomCharacters,
   getRandomChanges,
-  getRandomOrbitPath,
-  getRandomDuration,
+  getRandomColor,
 } from "../utils.js";
 
 const BPM = 90;
-const ANIMATION_DURATION = 30000;
+const ANIMATION_DURATION = 60000;
 
 const beatInterval = (60 / BPM) * 1000;
 const numChanges = Math.ceil(ANIMATION_DURATION / beatInterval);
 
-const config3 = generateConfig3(15, beatInterval);
+const config4 = generateConfig4(15, beatInterval);
 
-function generateConfig3(num, interval) {
+function generateConfig4(num, interval) {
   const elements = [];
   for (let i = 0; i < num; i++) {
     elements.push({
@@ -22,7 +21,8 @@ function generateConfig3(num, interval) {
       initialState: {
         width: `${Math.random() * 10 + 5}vw`,
         height: `${Math.random() * 10 + 5}vw`,
-        backgroundColor: Math.random() > 0.5 ? "#000" : "#FFF",
+        backgroundColor: getRandomColor(),
+        borderRadius: "50%",
         position: "absolute",
         transition: "all 1s linear",
         zIndex: Math.floor(Math.random() * 100),
@@ -30,16 +30,9 @@ function generateConfig3(num, interval) {
         left: `${Math.random() * 100}vw`,
       },
       timeline: {
-        rotate: {
-          clockwiseDuration: getRandomDuration(),
-          anticlockwiseDuration: getRandomDuration(),
-        },
-        change: getRandomChanges(
-          numChanges,
-          interval,
-          getBlackAndWhiteSquareStyles
-        ),
-        orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
+        rotate: null,
+        change: getRandomChanges(numChanges, interval, getWideOrbitStyles),
+        orbit: getWideOrbitPath(),
         duration: ANIMATION_DURATION,
       },
     });
@@ -47,11 +40,12 @@ function generateConfig3(num, interval) {
   return elements;
 }
 
-function getBlackAndWhiteSquareStyles() {
+function getWideOrbitStyles() {
   return {
     width: `${Math.random() * 10 + 5}vw`,
     height: `${Math.random() * 10 + 5}vw`,
-    backgroundColor: Math.random() > 0.5 ? "#000" : "#FFF",
+    backgroundColor: getRandomColor(),
+    borderRadius: "50%",
     position: "absolute",
     transition: "all 1s linear",
     zIndex: Math.floor(Math.random() * 100),
@@ -60,12 +54,23 @@ function getBlackAndWhiteSquareStyles() {
   };
 }
 
+function getWideOrbitPath() {
+  const centerX = Math.random() * window.innerWidth;
+  const centerY = Math.random() * window.innerHeight;
+  const radiusX = Math.random() * window.innerWidth * 20;
+  const radiusY = Math.random() * window.innerHeight * 20;
+  const speed = Math.random() * 0.01 + 0.005;
+
+  return { centerX, centerY, radiusX, radiusY, speed };
+}
+
 export default {
-  name: "Black and White Squares",
-  config: config3,
+  name: "Very Wide Orbits",
+  config: config4,
   styles: `
     body {
-      background-color: pink;     
+      background-color: blue;
+    
     }
   `,
 };
