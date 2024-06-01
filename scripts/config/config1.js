@@ -70,7 +70,7 @@ function getRandomRetroShapeStyles() {
     transform: `scale(${Math.random() * 2}) skew(${
       Math.random() * 60 - 30
     }deg, ${Math.random() * 30 - 30}deg)`,
-    filter: `blur(${Math.random() * 1}px)`,
+    filter: `blur(${Math.random() * 4}px)`,
   };
 }
 
@@ -107,7 +107,7 @@ function generateConfig1(num, interval) {
 }
 
 export default {
-  name: "Maximum Randomness",
+  name: "Vision test",
   config: config1,
   styles: `
     body {

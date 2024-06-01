@@ -4,7 +4,7 @@ import {
   getRandomOrbitPath,
 } from "../utils.js";
 
-const BPM = 90;
+const BPM = 190;
 const ANIMATION_DURATION = 60000;
 
 const beatInterval = (60 / BPM) * 1000;
@@ -21,7 +21,7 @@ function generateConfig2(num, interval) {
       initialState: {
         width: `${Math.random() * 20 + 5}vh`,
         height: `${Math.random() * 20 + 5}vh`,
-        backgroundColor: "#66CCCC",
+        backgroundColor: "#77CCCC",
         borderRadius: "50%",
         position: "absolute",
         transition: "all 1s linear",
@@ -44,7 +44,7 @@ function getCircleStyles() {
   return {
     width: `${Math.random() * 20 + 5}vh`,
     height: `${Math.random() * 20 + 5}vh`,
-    backgroundColor: "#66CCCC",
+    backgroundColor: "#55BBCC",
     borderRadius: "50%",
     position: "absolute",
     transition: "all 1s linear",
@@ -55,7 +55,7 @@ function getCircleStyles() {
 }
 
 export default {
-  name: "Jigglin",
+  name: "Conspiring",
   config: config2,
   styles: `
     body {

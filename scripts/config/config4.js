@@ -10,7 +10,7 @@ const ANIMATION_DURATION = 60000;
 const beatInterval = (60 / BPM) * 1000;
 const numChanges = Math.ceil(ANIMATION_DURATION / beatInterval);
 
-const config4 = generateConfig4(15, beatInterval);
+const config4 = generateConfig4(35, beatInterval);
 
 function generateConfig4(num, interval) {
   const elements = [];
@@ -57,15 +57,15 @@ function getWideOrbitStyles() {
 function getWideOrbitPath() {
   const centerX = Math.random() * window.innerWidth;
   const centerY = Math.random() * window.innerHeight;
-  const radiusX = Math.random() * window.innerWidth * 20;
-  const radiusY = Math.random() * window.innerHeight * 20;
-  const speed = Math.random() * 0.01 + 0.005;
+  const radiusX = Math.random() * window.innerWidth * 25;
+  const radiusY = Math.random() * window.innerHeight * 25;
+  const speed = Math.random() * 0.001 + 0.0005;
 
   return { centerX, centerY, radiusX, radiusY, speed };
 }
 
 export default {
-  name: "Very Wide Orbits",
+  name: "Where Even Am I",
   config: config4,
   styles: `
     body {

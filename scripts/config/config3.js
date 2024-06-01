@@ -18,7 +18,7 @@ function generateConfig3(num, interval) {
   for (let i = 0; i < num; i++) {
     elements.push({
       id: `div${i + 2}`,
-      content: getRandomCharacters(),
+      content: "Nice",
       initialState: {
         width: `${Math.random() * 10 + 5}vw`,
         height: `${Math.random() * 10 + 5}vw`,
@@ -61,7 +61,7 @@ function getBlackAndWhiteSquareStyles() {
 }
 
 export default {
-  name: "Black and White Squares",
+  name: "Comfortable Life",
   config: config3,
   styles: `
     body {
