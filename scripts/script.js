@@ -4,7 +4,6 @@ import config3 from "./config/config3.js";
 import config4 from "./config/config4.js";
 import { createElements } from "./utils.js";
 import {
-  animateCircle,
   animateRotation,
   handleTimeBasedChanges,
   animateOrbit,

@@ -1,22 +1,5 @@
 import { applyInitialState, applyStyles } from "./utils.js";
 
-export function animateCircle(element, duration, startTime) {
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
-  const radius = Math.min(centerX, centerY) - 100;
-
-  const animate = () => {
-    const elapsed = Date.now() - startTime;
-    const angle = ((elapsed % duration) / duration) * 2 * Math.PI;
-    const x = centerX + radius * Math.cos(angle) - element.offsetWidth / 2;
-    const y = centerY + radius * Math.sin(angle) - element.offsetHeight / 2;
-    element.style.left = `${x}px`;
-    element.style.top = `${y}px`;
-    requestAnimationFrame(animate);
-  };
-  animate();
-}
-
 export function animateRotation(
   element,
   clockwiseDuration = 5 * 1000,
