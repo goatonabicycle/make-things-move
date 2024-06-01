@@ -40,18 +40,34 @@ function getRandomCharacters(length = 10) {
   return result;
 }
 
-function getRandomShapeStyles() {
+function getRandomRetroColor() {
+  const retroColors = [
+    "#FF6699",
+    "#FF9933",
+    "#FFCC33",
+    "#99CC33",
+    "#66CCCC",
+    "#FF6666",
+    "#FFCC99",
+    "#CCCCFF",
+    "#CCFF66",
+    "#FFFF66",
+  ];
+  return retroColors[Math.floor(Math.random() * retroColors.length)];
+}
+
+function getRandomRetroShapeStyles() {
   const shapes = [
     {
       height: `${Math.random() * 20 + 5}vh`,
       width: `${Math.random() * 20 + 5}vw`,
-      backgroundColor: getRandomColor(),
+      backgroundColor: getRandomRetroColor(),
       borderRadius: `${Math.random() * 50}%`,
     },
     {
       height: `${Math.random() * 20 + 5}vh`,
       width: `${Math.random() * 20 + 5}vh`,
-      backgroundColor: getRandomColor(),
+      backgroundColor: getRandomRetroColor(),
       borderRadius: "50%",
     },
     {
@@ -59,17 +75,16 @@ function getRandomShapeStyles() {
       width: "0",
       borderLeft: `${Math.random() * 10 + 5}vw solid transparent`,
       borderRight: `${Math.random() * 10 + 5}vw solid transparent`,
-      borderBottom: `${Math.random() * 20 + 5}vh solid transparent`,
     },
     {
       height: `${Math.random() * 20 + 5}vh`,
       width: `${Math.random() * 10 + 5}vw`,
-      backgroundColor: getRandomColor(),
+      backgroundColor: getRandomRetroColor(),
     },
     {
       height: `${Math.random() * 20 + 5}vh`,
       width: `${Math.random() * 30 + 10}vw`,
-      backgroundColor: getRandomColor(),
+      backgroundColor: getRandomRetroColor(),
       borderRadius: "50%",
     },
   ];
@@ -94,7 +109,7 @@ function getRandomChanges(numChanges, interval) {
     changes.push({
       time: i * interval * multiple,
       styles: {
-        ...getRandomShapeStyles(),
+        ...getRandomRetroShapeStyles(),
         zIndex: Math.floor(Math.random() * 10) + 1,
         transition: "all 0.5s ease-in-out",
       },
@@ -111,7 +126,7 @@ function generateRandomElements(num, interval) {
       id: `div${i + 2}`,
       content: getRandomCharacters(),
       initialState: {
-        ...getRandomShapeStyles(),
+        ...getRandomRetroShapeStyles(),
         position: "absolute",
         transition: "all 0.5s ease-in-out",
         zIndex: 1,
