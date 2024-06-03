@@ -19,8 +19,8 @@ export function getRandomColor() {
   return color;
 }
 
-export function getRandomDuration() {
-  return Math.floor(Math.random() * 20000) + 1000;
+export function getRandomDuration(min = 1000, max = 20000) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export function getRandomCharacters(length = 10, customCharacters = null) {

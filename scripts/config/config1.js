@@ -90,8 +90,8 @@ function generateConfig1(num, interval) {
       },
       timeline: {
         rotate: {
-          clockwiseDuration: getRandomDuration(),
-          anticlockwiseDuration: getRandomDuration(),
+          clockwiseDuration: getRandomDuration(5000, 10000),
+          anticlockwiseDuration: getRandomDuration(5000, 10000),
         },
         change: getRandomChanges(
           numChanges,
