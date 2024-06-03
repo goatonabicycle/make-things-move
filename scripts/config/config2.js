@@ -17,7 +17,7 @@ function generateConfig2(num, interval) {
   for (let i = 0; i < num; i++) {
     elements.push({
       id: `div${i + 2}`,
-      content: getRandomCharacters(),
+      content: getRandomCharacters(10, "GHIJKLM"),
       initialState: {
         width: `${Math.random() * 20 + 5}vh`,
         height: `${Math.random() * 20 + 5}vh`,
@@ -31,7 +31,12 @@ function generateConfig2(num, interval) {
       },
       timeline: {
         rotate: null,
-        change: getRandomChanges(numChanges, interval, getCircleStyles),
+        change: getRandomChanges(
+          numChanges,
+          interval,
+          getCircleStyles,
+          "GHIJKLM"
+        ),
         orbit: getRandomOrbitPath(),
         duration: ANIMATION_DURATION,
       },

@@ -18,7 +18,7 @@ function generateConfig3(num, interval) {
   for (let i = 0; i < num; i++) {
     elements.push({
       id: `div${i + 2}`,
-      content: "Nice",
+      content: getRandomCharacters(10, "NOPQRST"),
       initialState: {
         width: `${Math.random() * 10 + 5}vw`,
         height: `${Math.random() * 10 + 5}vw`,
@@ -37,7 +37,8 @@ function generateConfig3(num, interval) {
         change: getRandomChanges(
           numChanges,
           interval,
-          getBlackAndWhiteSquareStyles
+          getBlackAndWhiteSquareStyles,
+          "NOPQRST"
         ),
         orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
         duration: ANIMATION_DURATION,

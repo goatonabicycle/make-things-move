@@ -23,9 +23,10 @@ export function getRandomDuration() {
   return Math.floor(Math.random() * 20000) + 1000;
 }
 
-export function getRandomCharacters(length = 10) {
+export function getRandomCharacters(length = 10, customCharacters = null) {
   const characters =
-    "----------ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    customCharacters ||
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -33,7 +34,12 @@ export function getRandomCharacters(length = 10) {
   return result;
 }
 
-export function getRandomChanges(numChanges, interval, shapeStylesFn) {
+export function getRandomChanges(
+  numChanges,
+  interval,
+  shapeStylesFn,
+  customCharacters = null
+) {
   const changes = [];
   for (let i = 0; i < numChanges; i++) {
     const multiple = Math.pow(2, Math.floor(Math.random() * 3)); // 1x, 2x, or 4x
@@ -44,7 +50,7 @@ export function getRandomChanges(numChanges, interval, shapeStylesFn) {
         zIndex: Math.floor(Math.random() * 10) + 1,
         transition: "all 0.5s ease-in-out",
       },
-      content: getRandomCharacters(),
+      content: getRandomCharacters(10, customCharacters),
     });
   }
   return changes;

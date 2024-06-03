@@ -17,7 +17,7 @@ function generateConfig4(num, interval) {
   for (let i = 0; i < num; i++) {
     elements.push({
       id: `div${i + 2}`,
-      content: getRandomCharacters(),
+      content: getRandomCharacters(10, "UVWXYZ"),
       initialState: {
         width: `${Math.random() * 10 + 5}vw`,
         height: `${Math.random() * 10 + 5}vw`,
@@ -31,7 +31,12 @@ function generateConfig4(num, interval) {
       },
       timeline: {
         rotate: null,
-        change: getRandomChanges(numChanges, interval, getWideOrbitStyles),
+        change: getRandomChanges(
+          numChanges,
+          interval,
+          getWideOrbitStyles,
+          "UVWXYZ"
+        ),
         orbit: getWideOrbitPath(),
         duration: ANIMATION_DURATION,
       },

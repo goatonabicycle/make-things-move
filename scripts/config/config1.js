@@ -81,7 +81,7 @@ function generateConfig1(num, interval) {
   for (let i = 0; i < num; i++) {
     elements.push({
       id: `div${i + 2}`,
-      content: getRandomCharacters(),
+      content: getRandomCharacters(10, "ABCDEF"),
       initialState: {
         ...getRandomRetroShapeStyles(),
         position: "absolute",
@@ -96,7 +96,8 @@ function generateConfig1(num, interval) {
         change: getRandomChanges(
           numChanges,
           interval,
-          getRandomRetroShapeStyles
+          getRandomRetroShapeStyles,
+          "ABCDEF"
         ),
         orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
         duration: ANIMATION_DURATION,
