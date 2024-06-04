@@ -3,15 +3,16 @@ import {
   getRandomChanges,
   getRandomOrbitPath,
   getRandomDuration,
+  createSpecificShape,
+  createRandomShape,
 } from "../utils.js";
 
 const BPM = 90;
 const ANIMATION_DURATION = 30000;
-
 const beatInterval = (60 / BPM) * 1000;
 const numChanges = Math.ceil(ANIMATION_DURATION / beatInterval);
 
-const retroColors = [
+const colours = [
   "#FF6699",
   "#FF9933",
   "#FFCC33",
@@ -25,65 +26,23 @@ const retroColors = [
 ];
 
 function getRandomRetroColor() {
-  return retroColors[Math.floor(Math.random() * retroColors.length)];
+  return colours[Math.floor(Math.random() * colours.length)];
 }
 
-function getRandomRetroShapeStyles() {
-  const shapes = [
-    {
-      height: `${Math.random() * 20 + 5}vh`,
-      width: `${Math.random() * 20 + 5}vw`,
-      backgroundColor: getRandomRetroColor(),
-      borderRadius: `${Math.random() * 50}%`,
-    },
-    {
-      height: `${Math.random() * 20 + 5}vh`,
-      width: `${Math.random() * 20 + 5}vh`,
-      backgroundColor: getRandomRetroColor(),
-      borderRadius: "50%",
-    },
-    {
-      height: "0",
-      width: "0",
-      borderLeft: `${Math.random() * 10 + 5}vw solid transparent`,
-      borderRight: `${Math.random() * 10 + 5}vw solid transparent`,
-    },
-    {
-      height: `${Math.random() * 20 + 5}vh`,
-      width: `${Math.random() * 10 + 5}vw`,
-      backgroundColor: getRandomRetroColor(),
-    },
-    {
-      height: `${Math.random() * 20 + 5}vh`,
-      width: `${Math.random() * 30 + 10}vw`,
-      backgroundColor: getRandomRetroColor(),
-      borderRadius: "50%",
-    },
-  ];
-
-  const shape = shapes[Math.floor(Math.random() * shapes.length)];
-  return {
-    ...shape,
-    top: `${Math.random() * 100}vh`,
-    left: `${Math.random() * 100}vw`,
-    opacity: Math.random(),
-    transform: `scale(${Math.random() * 2}) skew(${
-      Math.random() * 60 - 30
-    }deg, ${Math.random() * 30 - 30}deg)`,
-    filter: `blur(${Math.random() * 4}px)`,
-  };
-}
-
-const config1 = generateConfig1(25, beatInterval);
+const config1 = generateConfig1(30, beatInterval);
 
 function generateConfig1(num, interval) {
   const elements = [];
-  for (let i = 0; i < num; i++) {
+
+  for (let i = 0; i < 3; i++) {
     elements.push({
-      id: `div${i + 2}`,
+      id: `triangle${i + 1}`,
       content: getRandomCharacters(10, "ABCDEF"),
       initialState: {
-        ...getRandomRetroShapeStyles(),
+        ...createSpecificShape("triangle", {
+          color: i === 2 ? "#FFFFFF" : "#000000",
+          additionalStyles: { borderColor: getRandomRetroColor() },
+        }),
         position: "absolute",
         transition: "all 0.5s ease-in-out",
         zIndex: 1,
@@ -96,7 +55,11 @@ function generateConfig1(num, interval) {
         change: getRandomChanges(
           numChanges,
           interval,
-          getRandomRetroShapeStyles,
+          () =>
+            createSpecificShape("triangle", {
+              color: i === 2 ? "#FFFFFF" : getRandomRetroColor(),
+              additionalStyles: { borderColor: getRandomRetroColor() },
+            }),
           "ABCDEF"
         ),
         orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
@@ -104,6 +67,82 @@ function generateConfig1(num, interval) {
       },
     });
   }
+
+  for (let i = 0; i < 5; i++) {
+    elements.push({
+      id: `circle${i + 1}`,
+      content: getRandomCharacters(10, "ABCDEF"),
+      initialState: {
+        ...createSpecificShape("circle", {
+          color: "#000000",
+          additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" },
+        }),
+        position: "absolute",
+        transition: "all 0.5s ease-in-out",
+        zIndex: 1,
+      },
+      timeline: {
+        rotate: {
+          clockwiseDuration: getRandomDuration(5000, 10000),
+          anticlockwiseDuration: getRandomDuration(5000, 10000),
+        },
+        change: getRandomChanges(
+          numChanges,
+          interval,
+          () =>
+            createSpecificShape("circle", {
+              color: "#000000",
+              additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" },
+            }),
+          "ABCDEF"
+        ),
+        orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
+        duration: ANIMATION_DURATION,
+      },
+    });
+  }
+
+  for (let i = 0; i < 20; i++) {
+    const color =
+      i < 7 ? "#FF0000" : i < 14 ? "#0000FF" : getRandomRetroColor();
+    const borderColor = i % 2 === 0 ? "#FFFFFF" : "#000000";
+    elements.push({
+      id: `square${i + 1}`,
+      content: getRandomCharacters(10, "ABCDEF"),
+      initialState: {
+        ...createSpecificShape("square", {
+          color,
+          borderColor,
+          additionalStyles: { boxShadow: `0 0 10px ${color}` },
+        }),
+        position: "absolute",
+        transition: "all 0.5s ease-in-out",
+        zIndex: 1,
+      },
+      timeline: {
+        rotate: {
+          clockwiseDuration: getRandomDuration(5000, 10000),
+          anticlockwiseDuration: getRandomDuration(5000, 10000),
+        },
+        change: getRandomChanges(
+          numChanges,
+          interval,
+          () =>
+            createSpecificShape("square", {
+              color: getRandomRetroColor(),
+              borderColor,
+              additionalStyles: {
+                boxShadow: `0 0 10px ${getRandomRetroColor()}`,
+              },
+            }),
+          "ABCDEF"
+        ),
+        orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
+        duration: ANIMATION_DURATION,
+      },
+    });
+  }
+
   return elements;
 }
 
