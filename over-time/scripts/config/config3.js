@@ -62,7 +62,7 @@ function getBlackAndWhiteSquareStyles() {
 }
 
 export default {
-  name: "Comfortable Life",
+  name: "Comfortable",
   config: config3,
   styles: `
     body {
