@@ -5,7 +5,7 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Massive Grid</title>
+    <title>Off The Grid</title>
     <style>
       body,
       html {
@@ -15,25 +15,28 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        color: #fff;
         align-items: center;
         background-color: #000;
       }
       #controls {
         margin: 10px;
       }
+      #speed-input {
+      }
       #grid-container {
         display: grid;
         width: 100vw;
         height: 90vh;
-        border: 2px solid #000;
+        border: 2px solid white;
         box-sizing: border-box;
+        position: relative;
       }
       .grid-item {
-        border: 1px solid #000;
         box-sizing: border-box;
       }
       .random-item {
-        background-color: red;
+        background-color: green;
         width: 80%;
         height: 80%;
         display: flex;
@@ -42,17 +45,21 @@
         color: #fff;
         font-weight: bold;
         font-size: 1rem;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
       }
     </style>
   </head>
   <body>
     <div id="controls">
       <select id="config-select">
-        <option value="config1">Unique does not mean good</option>
-        <option value="config3">Always change</option>
-        <option value="config4">What are you orbiting?</option>
+        <option value="config1">Unique Does Not Mean Good</option>
+        <option value="config2">Always Change</option>
+        <option value="config3">What Are You Orbiting?</option>
+        <option value="config4">Falling is Fine</option>
+        <option value="config5">We're Here</option>
       </select>
-      <label for="speed-input">Speed (ms): </label>
+
+      <label for="speed-input">Speed: </label>
       <input
         type="number"
         id="speed-input"
