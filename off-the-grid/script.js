@@ -22,7 +22,6 @@ const obscureCharacters = [
   "-",
   "X",
   "V",
-  "`",
 ];
 
 let currentConfig = "config1";

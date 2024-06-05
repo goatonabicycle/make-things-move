@@ -5,16 +5,103 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Making things move</title>
+    <title>Making Things Move</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet" />
     <style>
+      :root {
+        --background-color: #2a2a2a;
+        --text-color: black;
+        --link-color: black;
+        --link-hover-color: #ba55d3;
+        --iframe-border-color: #000000;
+        --header-background-color: #3e3e3e;
+        --button-background-color: #ba55d3;
+        --button-hover-color: #ff6347;
+      }
       body {
-        background-color: black;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        font-family: "Press Start 2P", cursive;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
         overflow: hidden;
       }
+      header {
+        background-color: var(--header-background-color);
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--iframe-border-color);
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.5em;
+        color: var(--text-color);
+      }
+      nav {
+        display: flex;
+      }
+      nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 1em;
+        border: 3px solid var(--iframe-border-color);
+        font-weight: bold;
+        padding: 5px 10px;
+        background-color: var(--button-background-color);
+        transition: background-color 0.3s, transform 0.3s;
+      }
+      nav a:hover {
+        background-color: var(--button-hover-color);
+        transform: scale(1.05);
+      }
+      iframe {
+        flex-grow: 1;
+        border: 1px solid var(--iframe-border-color);
+        width: 100%;
+      }
     </style>
+    <script>
+      function loadPage(url) {
+        document.getElementById("iframe").src = url;
+      }
+    </script>
   </head>
   <body>
-    <a href="./over-time/index.html">Over-Time</a><br />
-    <a href="./off-the-grid/index.html">Off-The-Grid</a>
+    <header>
+      <h1>Making Things Move</h1>
+      <nav>
+        <a
+          href="#"
+          onclick="loadPage('./over-time/index.html')"
+          >Over-Time</a
+        >
+        <a
+          href="#"
+          onclick="loadPage('./off-the-grid/index.html')"
+          >Off-The-Grid</a
+        >
+        <a
+          href="#"
+          onclick="loadPage('./microsoft-paint/index.html')"
+          >Microsoft-Paint</a
+        >
+        <a
+          href="https://github.com/goatonabicycle"
+          target="_blank"
+          >code</a
+        >
+      </nav>
+    </header>
+    <iframe
+      id="iframe"
+      src=""
+      frameborder="0"></iframe>
   </body>
 </html>
