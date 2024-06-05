@@ -31,8 +31,8 @@ let speed = parseInt(speedInput.value);
 
 const configs = {
   config1: {
-    rows: 20,
-    columns: 20,
+    rows: 100,
+    columns: 100,
     borderColor: "#000",
     numDivs: 10,
     characterSet: obscureCharacters,
@@ -40,8 +40,8 @@ const configs = {
     action: placeRandomDivs,
   },
   config3: {
-    rows: 10,
-    columns: 30,
+    rows: 100,
+    columns: 200,
     borderColor: "#000",
     numDivs: 10,
     characterSet: obscureCharacters,
@@ -49,10 +49,10 @@ const configs = {
     action: moveLineDivsHorizontally,
   },
   config4: {
-    rows: 20,
-    columns: 20,
+    rows: 200,
+    columns: 100,
     borderColor: "#000",
-    numDivs: 10,
+    numDivs: 20,
     characterSet: obscureCharacters,
     itemColors: ["red"],
     action: moveCircleDivs,
