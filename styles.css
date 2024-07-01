@@ -1,0 +1,72 @@
+.button-container {
+  margin: 20px;
+}
+
+.button-container button {
+  margin-right: 10px;
+  padding: 10px;
+}
+
+#module-content {
+  margin: 0px;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+:root {
+  --background-color: #2a2a2a;
+  --text-color: black;
+  --link-color: black;
+  --link-hover-color: #ba55d3;
+  --iframe-border-color: #000000;
+  --header-background-color: #3e3e3e;
+  --button-background-color: #ba55d3;
+  --button-hover-color: #ff6347;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: "Press Start 2P", cursive;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  background-color: var(--header-background-color);
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--iframe-border-color);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5em;
+  color: var(--text-color);
+}
+
+nav {
+  display: flex;
+}
+
+nav button {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1em;
+  border: 3px solid var(--iframe-border-color);
+  font-weight: bold;
+  padding: 5px 10px;
+  background-color: var(--button-background-color);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+nav button:hover {
+  background-color: var(--button-hover-color);
+  transform: scale(1.05);
+}
