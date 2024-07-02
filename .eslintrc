@@ -1,0 +1,12 @@
+{
+  "extends": ["prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": 2,
+    "semi": "error",
+    "prefer-const": "error",
+    "max-len": ["error", { "code": 180 }],
+    "array-element-newline": ["error", { "multiline": true }],
+    "array-bracket-newline": ["error", "consistent"]
+  }
+}
