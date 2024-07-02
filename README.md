@@ -1,6 +1,6 @@
 This is really nothing right now. 
 
-
+I intend for it to be a cool collection of silly animation stuff.
 
 todo: 
 
