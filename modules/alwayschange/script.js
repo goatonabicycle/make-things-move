@@ -1,25 +1,18 @@
 (function () {
   const gridContainer = document.getElementById("grid-container");
-  const speedInput = 50;
+  const speed = 100;
 
   const obscureCharacters = ["Ω", "λ", "δ", "ψ", "π", "ξ", "η", "θ", "ζ", "χ", "φ", "β", "μ", "τ", "γ", "κ", "-", "X", "V"];
+  const itemColors = ["#2E8B57", "#3CB371", "#BDF8A3", "#33B864", "#66CDAA", "#8FBC8F", "#044A05"];
 
-  const colorSet = ["#2E8B57", "#3CB371", "#20B2AA", "#66CDAA", "#8FBC8F"];
+  const rows = 10;
+  const columns = 25;
+  const numDivs = 10;
+  let intervalId = null;
 
-  const config = {
-    rows: 100,
-    columns: 150,
-    borderColor: "#000",
-    numDivs: 60,
-    characterSet: obscureCharacters,
-    itemColors: colorSet,
-    action: moveLineDivsHorizontally,
-    mouseEnabled: false,
-    mouseAction: null,
-    intervalId: null
-  };
+  const getRandomInt = (max) => Math.floor(Math.random() * max);
 
-  function createGrid({ rows, columns }) {
+  function createGrid() {
     gridContainer.innerHTML = "";
     gridContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
     gridContainer.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
@@ -33,32 +26,36 @@
     gridContainer.appendChild(fragment);
   }
 
-  function moveLineDivsHorizontally(config) {
-    const { rows, columns, numDivs, characterSet, itemColors } = config;
+  function moveLineDivsHorizontally() {
     const totalCells = rows * columns;
     let position = 0;
+    let rowOffset = 0;
 
     function move() {
-      const existingItems = document.querySelectorAll(".random-item");
+      const existingItems = gridContainer.querySelectorAll(".random-item");
       existingItems.forEach((item) => item.remove());
 
       for (let i = 0; i < numDivs; i++) {
-        const cellIndex = (position + i) % totalCells;
+        let cellIndex = (position + i + rowOffset * columns) % totalCells;
+        if (cellIndex < 0) cellIndex += totalCells;
         const randomCell = gridContainer.children[cellIndex];
         const randomDiv = document.createElement("div");
         randomDiv.className = "random-item";
-        randomDiv.textContent = characterSet[Math.floor(Math.random() * characterSet.length)];
-        randomDiv.style.backgroundColor = itemColors[Math.floor(Math.random() * itemColors.length)];
+        randomDiv.textContent = obscureCharacters[getRandomInt(obscureCharacters.length)];
+        randomDiv.style.backgroundColor = itemColors[getRandomInt(itemColors.length)];
         randomCell.appendChild(randomDiv);
       }
-      position = (position + 1) % totalCells;
+      position = (position + 1) % columns;
+      if (position === 0) {
+        rowOffset = (rowOffset + 1) % rows;
+      }
     }
 
-    clearInterval(config.intervalId);
-    config.intervalId = setInterval(move, speedInput);
+    clearInterval(intervalId);
+    intervalId = setInterval(move, speed);
     move();
   }
 
-  createGrid(config);
-  config.action(config);
+  createGrid();
+  moveLineDivsHorizontally();
 })();
