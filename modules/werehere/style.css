@@ -1,0 +1,20 @@
+#grid-container {
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.grid-item {
+  box-sizing: border-box;
+}
+
+.random-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+}
