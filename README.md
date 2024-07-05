@@ -12,12 +12,12 @@ A module is a folder that specifically contains the following:
 
 *There will soon be a cool automatic way to scaffold this*
 
-
 # todo: 
 
-- Have all the different movements exist in the same space. (Currently there are 3 different things)
-- Have a way to switch between the different sub movements
-- Have a way to change the speed of the animations
-- Have a way to change the size of the animations
-- Have a way to change the color of the animations
-- Have a way to change the direction of the animations
+- Have all the different movements exist in the same space. (Currently there are 2 different things)
+
+Parameters:
+- speed
+- size
+- colors
+- direction
