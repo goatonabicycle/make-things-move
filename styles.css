@@ -16,7 +16,7 @@
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   margin: 0;
   padding: 0;
   display: flex;
@@ -27,7 +27,7 @@ body {
 
 header {
   background-color: var(--header-background-color);
-  padding: 5px;
+  padding: 2px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,7 +37,7 @@ header {
 
 header h1 {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 1em;
   color: var(--text-color);
 }
 
@@ -47,11 +47,7 @@ nav {
 
 nav button {
   color: var(--text-color);
-  text-decoration: none;
-  font-size: 1em;
-  border: 3px solid var(--iframe-border-color);
-  font-weight: bold;
-  padding: 5px 10px;
+  border: 1px solid var(--iframe-border-color);
   background-color: var(--button-background-color);
   transition: background-color 0.3s, transform 0.3s;
 }
