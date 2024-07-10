@@ -1,13 +1,5 @@
 (function () {
   const gridContainer = document.getElementById("grid-container");
-  const timerElement = document.createElement("div");
-  timerElement.id = "timer";
-  timerElement.style.position = "fixed";
-  timerElement.style.top = "10px";
-  timerElement.style.left = "10px";
-  timerElement.style.fontSize = "20px";
-  timerElement.style.color = "white";
-  document.body.appendChild(timerElement);
 
   const BPM = 90;
   const ANIMATION_DURATION = 30000;
