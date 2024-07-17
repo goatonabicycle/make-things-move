@@ -8,24 +8,18 @@
 
   const colours = ["#FF6699", "#FF9933", "#FFCC33", "#99CC33", "#66CCCC", "#FF6666", "#FFCC99", "#CCCCFF", "#CCFF66", "#FFFF66"];
 
-  function getRandomRetroColor() {
-    return colours[Math.floor(Math.random() * colours.length)];
-  }
+  const getRandomRetroColor = () => colours[Math.floor(Math.random() * colours.length)];
+  const getRandomDuration = (min = 1000, max = 20000) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-  function getRandomDuration(min = 1000, max = 20000) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  function getRandomCharacters(length = 10, customCharacters = null) {
-    const characters = customCharacters || "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const getRandomCharacters = (length = 10, customCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") => {
     let result = "";
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+      result += customCharacters.charAt(Math.floor(Math.random() * customCharacters.length));
     }
     return result;
-  }
+  };
 
-  function getRandomChanges(numChanges, interval, shapeStylesFn, customCharacters = null) {
+  const getRandomChanges = (numChanges, interval, shapeStylesFn, customCharacters = null) => {
     const changes = [];
     for (let i = 0; i < numChanges; i++) {
       changes.push({
@@ -39,33 +33,27 @@
       });
     }
     return changes;
-  }
+  };
 
-  function getRandomOrbitPath() {
+  const getRandomOrbitPath = () => {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     const radiusX = Math.random() * (window.innerWidth / 2) + 1000;
     const radiusY = Math.random() * (window.innerHeight / 2) + 1000;
     const speed = Math.random() * 0.01 + 0.005;
-
     return { centerX, centerY, radiusX, radiusY, speed };
-  }
+  };
 
-  function applyInitialState(element, state) {
-    for (const [key, value] of Object.entries(state)) {
-      element.style[key] = value;
-    }
-  }
+  const applyInitialState = (element, state) => {
+    Object.entries(state).forEach(([key, value]) => (element.style[key] = value));
+  };
 
-  function applyStyles(element, styles) {
-    for (const [key, value] of Object.entries(styles)) {
-      element.style[key] = value;
-    }
-  }
+  const applyStyles = (element, styles) => {
+    Object.entries(styles).forEach(([key, value]) => (element.style[key] = value));
+  };
 
-  function getShapeStyles(shape, options = {}) {
+  const getShapeStyles = (shape, options = {}) => {
     const { color, borderColor, additionalStyles } = options;
-
     const baseStyles = {
       top: `${Math.random() * 100}vh`,
       left: `${Math.random() * 100}vw`,
@@ -80,38 +68,22 @@
       animation: `move ${Math.random() * 10 + 5}s infinite alternate`
     };
 
-    switch (shape) {
-      case "square":
-        return {
-          ...baseStyles,
-          height: `${Math.random() * 20 + 5}vh`,
-          width: `${Math.random() * 20 + 5}vw`,
-          ...additionalStyles
-        };
-      case "circle":
-        return {
-          ...baseStyles,
-          height: `${Math.random() * 20 + 5}vh`,
-          width: `${Math.random() * 20 + 5}vh`,
-          borderRadius: "50%",
-          ...additionalStyles
-        };
-      case "triangle":
-        return {
-          ...baseStyles,
-          height: "0",
-          width: "0",
-          borderLeft: `${Math.random() * 10 + 5}vw solid transparent`,
-          borderRight: `${Math.random() * 10 + 5}vw solid transparent`,
-          borderBottom: `${Math.random() * 20 + 10}vh solid ${color}`,
-          ...additionalStyles
-        };
-      default:
-        return { ...baseStyles, ...additionalStyles };
-    }
-  }
+    const shapeSpecificStyles = {
+      square: { height: `${Math.random() * 20 + 5}vh`, width: `${Math.random() * 20 + 5}vw` },
+      circle: { height: `${Math.random() * 20 + 5}vh`, width: `${Math.random() * 20 + 5}vh`, borderRadius: "50%" },
+      triangle: {
+        height: "0",
+        width: "0",
+        borderLeft: `${Math.random() * 10 + 5}vw solid transparent`,
+        borderRight: `${Math.random() * 10 + 5}vw solid transparent`,
+        borderBottom: `${Math.random() * 20 + 10}vh solid ${color}`
+      }
+    };
 
-  function createElements(config) {
+    return { ...baseStyles, ...shapeSpecificStyles[shape], ...additionalStyles };
+  };
+
+  const createElements = (config) => {
     config.forEach((item) => {
       const element = document.createElement("div");
       element.id = item.id;
@@ -120,11 +92,10 @@
       applyInitialState(element, item.initialState);
       gridContainer.appendChild(element);
     });
-  }
+  };
 
-  function animateRotation(element, clockwiseDuration = 5000, anticlockwiseDuration = 5000) {
+  const animateRotation = (element, clockwiseDuration = 5000, anticlockwiseDuration = 5000) => {
     if (!clockwiseDuration || !anticlockwiseDuration) return;
-
     let rotationStartTime = Date.now();
     let clockwise = true;
 
@@ -143,9 +114,9 @@
       requestAnimationFrame(animate);
     };
     animate();
-  }
+  };
 
-  function animateOrbit(element, orbit) {
+  const animateOrbit = (element, orbit) => {
     const { centerX, centerY, radiusX, radiusY, speed } = orbit;
     let startTime = Date.now();
 
@@ -159,9 +130,9 @@
       requestAnimationFrame(animate);
     };
     animate();
-  }
+  };
 
-  function handleTimeBasedChanges(element, changes, duration, initialState) {
+  const handleTimeBasedChanges = (element, changes, duration, initialState) => {
     changes.forEach((change) => {
       setTimeout(() => {
         applyStyles(element, change.styles);
@@ -176,9 +147,9 @@
       element.innerHTML = `<div>${initialState.content}</div>`;
       handleTimeBasedChanges(element, changes, duration, initialState);
     }, duration);
-  }
+  };
 
-  function generateConfig1() {
+  const generateConfig = () => {
     const elements = [];
 
     for (let i = 0; i < 3; i++) {
@@ -186,27 +157,17 @@
         id: `triangle${i + 1}`,
         content: getRandomCharacters(10, "ABCDEF"),
         initialState: {
-          ...getShapeStyles("triangle", {
-            color: i === 2 ? "#FFFFFF" : "#000000",
-            additionalStyles: { borderColor: getRandomRetroColor() }
-          }),
+          ...getShapeStyles("triangle", { color: i === 2 ? "#FFFFFF" : "#000000", additionalStyles: { borderColor: getRandomRetroColor() } }),
           position: "absolute",
           transition: "all 0.5s ease-in-out",
           zIndex: 1
         },
         timeline: {
-          rotate: {
-            clockwiseDuration: getRandomDuration(5000, 10000),
-            anticlockwiseDuration: getRandomDuration(5000, 10000)
-          },
+          rotate: { clockwiseDuration: getRandomDuration(5000, 10000), anticlockwiseDuration: getRandomDuration(5000, 10000) },
           change: getRandomChanges(
             numChanges,
             beatInterval,
-            () =>
-              getShapeStyles("triangle", {
-                color: i === 2 ? "#FFFFFF" : getRandomRetroColor(),
-                additionalStyles: { borderColor: getRandomRetroColor() }
-              }),
+            () => getShapeStyles("triangle", { color: i === 2 ? "#FFFFFF" : getRandomRetroColor(), additionalStyles: { borderColor: getRandomRetroColor() } }),
             "ABCDEF"
           ),
           orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
@@ -220,27 +181,17 @@
         id: `circle${i + 1}`,
         content: getRandomCharacters(10, "ABCDEF"),
         initialState: {
-          ...getShapeStyles("circle", {
-            color: "#000000",
-            additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" }
-          }),
+          ...getShapeStyles("circle", { color: "#000000", additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" } }),
           position: "absolute",
           transition: "all 0.5s ease-in-out",
           zIndex: 1
         },
         timeline: {
-          rotate: {
-            clockwiseDuration: getRandomDuration(5000, 10000),
-            anticlockwiseDuration: getRandomDuration(5000, 10000)
-          },
+          rotate: { clockwiseDuration: getRandomDuration(5000, 10000), anticlockwiseDuration: getRandomDuration(5000, 10000) },
           change: getRandomChanges(
             numChanges,
             beatInterval,
-            () =>
-              getShapeStyles("circle", {
-                color: "#000000",
-                additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" }
-              }),
+            () => getShapeStyles("circle", { color: "#000000", additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" } }),
             "ABCDEF"
           ),
           orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
@@ -256,31 +207,17 @@
         id: `square${i + 1}`,
         content: getRandomCharacters(10, "ABCDEF"),
         initialState: {
-          ...getShapeStyles("square", {
-            color,
-            borderColor,
-            additionalStyles: { boxShadow: `0 0 10px ${color}` }
-          }),
+          ...getShapeStyles("square", { color, borderColor, additionalStyles: { boxShadow: `0 0 10px ${color}` } }),
           position: "absolute",
           transition: "all 0.5s ease-in-out",
           zIndex: 1
         },
         timeline: {
-          rotate: {
-            clockwiseDuration: getRandomDuration(5000, 10000),
-            anticlockwiseDuration: getRandomDuration(5000, 10000)
-          },
+          rotate: { clockwiseDuration: getRandomDuration(5000, 10000), anticlockwiseDuration: getRandomDuration(5000, 10000) },
           change: getRandomChanges(
             numChanges,
             beatInterval,
-            () =>
-              getShapeStyles("square", {
-                color: getRandomRetroColor(),
-                borderColor,
-                additionalStyles: {
-                  boxShadow: `0 0 10px ${getRandomRetroColor()}`
-                }
-              }),
+            () => getShapeStyles("square", { color: getRandomRetroColor(), borderColor, additionalStyles: { boxShadow: `0 0 10px ${getRandomRetroColor()}` } }),
             "ABCDEF"
           ),
           orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
@@ -290,11 +227,11 @@
     }
 
     return elements;
-  }
+  };
 
-  const config = generateConfig1();
+  const config = generateConfig();
 
-  function animateElements(config) {
+  const animateElements = (config) => {
     config.forEach((item) => {
       const element = document.getElementById(item.id);
       if (item.timeline.rotate) {
@@ -308,22 +245,22 @@
         handleTimeBasedChanges(element, item.timeline.change, item.timeline.duration, item.initialState);
       }
     });
-  }
+  };
 
-  function resetAndRestart() {
+  const resetAndRestart = () => {
     const elements = gridContainer.querySelectorAll(".centered-text");
     elements.forEach((element) => element.remove());
     createElements(config);
     animateElements(config);
     startTime = Date.now();
-  }
+  };
 
-  function updateTimer() {
+  const updateTimer = () => {
     const elapsed = Date.now() - startTime;
     const seconds = Math.floor(elapsed / 1000) % 60;
     timerElement.textContent = `Time: ${seconds}s`;
     requestAnimationFrame(updateTimer);
-  }
+  };
 
   createElements(config);
   animateElements(config);
