@@ -1,0 +1,13 @@
+#checkboxContainer {
+  height: 100%;
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  accent-color: #c70039;
+  width: 30px;
+  height: 30px;
+}
