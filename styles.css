@@ -61,3 +61,7 @@ nav button.active {
   background-color: var(--button-hover-color);
   transform: scale(1.05);
 }
+
+.default {
+  padding: 10px;
+}
