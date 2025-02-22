@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const buttons = document.querySelectorAll(".button-container button");
+  const buttons = document.querySelectorAll(".module-nav button");
 
   const loadModule = (moduleName) => {
+    // Complete page reload with the module parameter
     window.location.href = `?m=${moduleName}`;
   };
 
@@ -15,28 +16,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const loadModuleContent = async (moduleName) => {
     const moduleContent = document.getElementById("module-content");
 
-    moduleContent.innerHTML = "";
+    try {
+      moduleContent.innerHTML = "";
 
-    const html = await fetch(`modules/${moduleName}/index.html`).then((res) => res.text());
-    moduleContent.innerHTML = html;
+      const oldScript = document.getElementById("module-script");
+      const oldStyle = document.getElementById("module-style");
+      if (oldScript) oldScript.remove();
+      if (oldStyle) oldStyle.remove();
 
-    const script = document.createElement("script");
-    script.src = `modules/${moduleName}/script.js`;
-    script.id = "module-script";
-    moduleContent.appendChild(script);
+      const html = await fetch(`modules/${moduleName}/index.html`).then(res => res.text());
+      moduleContent.innerHTML = html;
 
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = `modules/${moduleName}/style.css`;
-    link.id = "module-style";
-    document.head.appendChild(link);
+      const script = document.createElement("script");
+      script.src = `modules/${moduleName}/script.js?v=${Date.now()}`;
+      script.id = "module-script";
+      document.body.appendChild(script);
 
-    buttons.forEach((button) => {
-      button.classList.remove("active");
-      if (button.getAttribute("data-module") === moduleName) {
-        button.classList.add("active");
-      }
-    });
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = `modules/${moduleName}/style.css?v=${Date.now()}`;
+      link.id = "module-style";
+      document.head.appendChild(link);
+
+      buttons.forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-module") === moduleName);
+      });
+
+    } catch (error) {
+      console.error(error);
+      moduleContent.innerHTML = `<div class="default">Failed to load module: ${moduleName}</div>`;
+    }
   };
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -44,10 +53,4 @@ document.addEventListener("DOMContentLoaded", () => {
   if (initialModule) {
     loadModuleContent(initialModule);
   }
-
-  window.addEventListener("popstate", (event) => {
-    if (event.state && event.state.module) {
-      loadModuleContent(event.state.module);
-    }
-  });
 });
