@@ -1,6 +1,7 @@
 .shape {
   position: absolute;
   animation: move var(--rotation-speed) linear infinite;
+  pointer-events: none;
 }
 
 @keyframes move {
@@ -9,35 +10,33 @@
   }
   25% {
     transform: translate(
-        calc(50vw * var(--random-x1)),
-        calc(50vh * var(--random-y1))
-      )
-      rotate(90deg);
+      calc(50vw * var(--random-x1)),
+      calc(50vh * var(--random-y1))
+    )
+     rotate(90deg);
   }
   50% {
     transform: translate(
-        calc(-30vw * var(--random-x2)),
-        calc(50vh * var(--random-y2))
-      )
-      rotate(180deg);
+      calc(-30vw * var(--random-x2)),
+      calc(50vh * var(--random-y2))
+    ) rotate(180deg);
   }
   75% {
     transform: translate(
-        calc(40vw * var(--random-x3)),
-        calc(-30vh * var(--random-y3))
-      )
-      rotate(270deg);
+      calc(40vw * var(--random-x3)),
+      calc(-30vh * var(--random-y3))
+    ) rotate(270deg);
   }
   100% {
     transform: translate(0, 0) rotate(360deg);
   }
 }
 
-.shape {
-  --random-x1: calc(-1 + Math.random() * 2);
-  --random-y1: calc(-1 + Math.random() * 2);
-  --random-x2: calc(-1 + Math.random() * 2);
-  --random-y2: calc(-1 + Math.random() * 2);
-  --random-x3: calc(-1 + Math.random() * 2);
-  --random-y3: calc(-1 + Math.random() * 2);
+#animationContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
