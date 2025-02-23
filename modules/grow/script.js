@@ -57,24 +57,24 @@
 
   Object.entries(config).forEach(([category, params]) => {
     const section = document.createElement('div');
-    section.style.padding = '5px';
+    section.style.padding = '2px';
 
     const title = document.createElement('div');
-    title.textContent = category.toUpperCase();
+    title.textContent = category.toLowerCase();
     title.style.borderBottom = '1px solid #555';
-    title.style.marginBottom = '5px';
+
     section.appendChild(title);
 
     Object.entries(params).forEach(([key, setting]) => {
       const container = document.createElement('div');
       container.style.display = 'grid';
       container.style.gridTemplateColumns = '1fr 30px';
-      container.style.gap = '5px';
+      container.style.gap = '1px';
       container.style.alignItems = 'center';
       container.style.marginBottom = '3px';
 
       const label = document.createElement('label');
-      label.textContent = setting.label;
+      label.textContent = setting.label.toLowerCase();
       label.style.fontSize = '11px';
 
       const slider = document.createElement('input');
@@ -84,7 +84,7 @@
       slider.step = setting.step;
       slider.value = setting.value;
       slider.style.width = '100%';
-      slider.style.height = '15px';
+      slider.style.height = '12px';
 
       const value = document.createElement('span');
       value.textContent = setting.value;
