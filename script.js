@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll(".module-nav button");
 
   const loadModule = (moduleName) => {
-    // Complete page reload with the module parameter
     window.location.href = `?m=${moduleName}`;
   };
 
@@ -21,8 +20,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const oldScript = document.getElementById("module-script");
       const oldStyle = document.getElementById("module-style");
+
+      if (window.cleanup) {
+        window.cleanup();
+      }
+
       if (oldScript) oldScript.remove();
       if (oldStyle) oldStyle.remove();
+
+      const configScript = document.createElement("script");
+      configScript.src = "/configPanel.js";
+      await new Promise((resolve) => {
+        configScript.onload = resolve;
+        document.body.appendChild(configScript);
+      });
 
       const html = await fetch(`modules/${moduleName}/index.html`).then(res => res.text());
       moduleContent.innerHTML = html;
