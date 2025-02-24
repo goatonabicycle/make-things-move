@@ -131,16 +131,6 @@
     }
   }
 
-  await new Promise(resolve => {
-    const checkDeps = () => {
-      if (window.ModuleManager && window.ConfigPanel) {
-        resolve();
-      } else {
-        setTimeout(checkDeps, 50);
-      }
-    };
-    checkDeps();
-  });
 
   const moduleManager = new ModuleManager();
   await moduleManager.init(MSPaintModule);
