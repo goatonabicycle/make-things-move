@@ -18,30 +18,25 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       moduleContent.innerHTML = "";
 
-      const oldScript = document.getElementById("module-script");
-      const oldStyle = document.getElementById("module-style");
-
       if (window.cleanup) {
         window.cleanup();
       }
 
+      const oldScript = document.getElementById("module-script");
+      const oldStyle = document.getElementById("module-style");
       if (oldScript) oldScript.remove();
       if (oldStyle) oldStyle.remove();
 
-      const configScript = document.createElement("script");
-      configScript.src = "/configPanel.js";
-      await new Promise((resolve) => {
-        configScript.onload = resolve;
-        document.body.appendChild(configScript);
-      });
+      await Promise.all([
+        loadScript("/configPanel.js"),
+        loadScript("/moduleManager.js")
+      ]);
+
 
       const html = await fetch(`modules/${moduleName}/index.html`).then(res => res.text());
       moduleContent.innerHTML = html;
 
-      const script = document.createElement("script");
-      script.src = `modules/${moduleName}/script.js?v=${Date.now()}`;
-      script.id = "module-script";
-      document.body.appendChild(script);
+      await loadScript(`modules/${moduleName}/script.js?v=${Date.now()}`);
 
       const link = document.createElement("link");
       link.rel = "stylesheet";
@@ -54,10 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
     } catch (error) {
-      console.error(error);
       moduleContent.innerHTML = `<div class="default">Failed to load module: ${moduleName}</div>`;
     }
   };
+
+  function loadScript(src) {
+    const script = document.createElement("script");
+    script.src = src;
+    document.body.appendChild(script);
+  }
 
   const urlParams = new URLSearchParams(window.location.search);
   const initialModule = urlParams.get("m");

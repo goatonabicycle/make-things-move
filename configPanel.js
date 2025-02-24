@@ -1,4 +1,3 @@
-
 class ConfigPanel {
   constructor(config, onChange = () => { }) {
     this.config = config;
@@ -30,6 +29,7 @@ class ConfigPanel {
           border:1px solid #7c3aed;
           border-top-right-radius: 8px;
           backdrop-filter: blur(8px);
+          z-index: 1000;
         }
 
         .config-panel input[type="range"] {
@@ -161,12 +161,6 @@ class ConfigPanel {
       this.panel = null;
     }
   }
-
-  getConfig() {
-    return this.config;
-  }
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = ConfigPanel;
-}
+window.ConfigPanel = ConfigPanel;
