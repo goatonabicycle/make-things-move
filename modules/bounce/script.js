@@ -14,8 +14,8 @@
           maxSpeed: { value: 5, min: 2, max: 15, step: 0.5, label: 'Max Speed' }
         },
         appearance: {
-          trails: { value: 0, min: 0, max: 1, step: 0.01, label: 'Trails' },
-          colorChange: { value: 0, min: 0, max: 1, step: 0.01, label: 'Color Change' }
+          trails: { value: false, type: 'boolean', label: 'Trails' },
+          colorChange: { value: false, type: 'boolean', label: 'Color Change' }
         }
       };
 

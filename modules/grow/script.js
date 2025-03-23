@@ -13,7 +13,7 @@ const config = {
     minBranches: { value: 2, min: 2, max: 5, step: 1, label: 'Min Branches' },
     maxBranches: { value: 3, min: 2, max: 7, step: 1, label: 'Max Branches' },
     branchSpread: { value: 1.25, min: 0.1, max: Math.PI, step: 0.1, label: 'Spread' },
-    randomSpread: { value: 0, min: 0, max: 1, step: 0.1, label: 'Random Spread' }
+    randomSpread: { value: false, type: 'boolean', label: 'Random Spread' }
   },
   animation: {
     swaySpeed: { value: 0.001, min: 0, max: 0.01, step: 0.0001, label: 'Sway Speed' },

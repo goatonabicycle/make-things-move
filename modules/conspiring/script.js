@@ -18,7 +18,7 @@
           maxSize: { value: 25, min: 5, max: 50, step: 1, label: 'Max Size (vh)' }
         },
         appearance: {
-          useCustomChars: { value: 1, min: 0, max: 1, step: 1, label: 'Custom Chars' },
+          useCustomChars: { value: true, type: 'boolean', label: 'Custom Chars' },
           backgroundColor: { value: 1, min: 0, max: 3, step: 1, label: 'BG Color' }
         },
         orbit: {

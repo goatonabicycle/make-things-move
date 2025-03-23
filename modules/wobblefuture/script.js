@@ -22,7 +22,7 @@
         },
         animation: {
           updateSpeed: { value: 70, min: 10, max: 500, step: 10, label: 'Speed (ms)' },
-          showInfo: { value: 1, min: 0, max: 1, step: 1, label: 'Show Info' }
+          showInfo: { value: true, type: 'boolean', label: 'Show Info' }
         },
         appearance: {
           circleColor: { value: 0, min: 0, max: 4, step: 1, label: 'Circle Color' },
@@ -51,7 +51,7 @@
         document.body.appendChild(this.trigFunctionDisplay);
       }
 
-      if (this.config.animation.showInfo.value === 1) {
+      if (this.config.animation.showInfo.value === true) {
         this.trigFunctionDisplay.style.display = "block";
         this.trigFunctionDisplay.innerHTML = `x: ${this.trigFuncX.name}, y: ${this.trigFuncY.name}, circles: ${this.numCirclesPerLayer}`;
       } else {

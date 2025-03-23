@@ -67,6 +67,17 @@ class ConfigPanel {
           transition: all 0.15s ease;
         }
 
+        .config-panel input[type="range"]::-moz-range-thumb:hover {
+          transform: scale(1.2);
+        }
+
+        .config-panel input[type="checkbox"] {
+          width: 14px;
+          height: 14px;
+          accent-color: #7c3aed;
+          cursor: pointer;
+        }
+
         .config-panel section {
           padding: 4px;
           background: rgba(0,0,0,0.2);
@@ -126,26 +137,45 @@ class ConfigPanel {
         const label = document.createElement('label');
         label.textContent = setting.label.toLowerCase();
 
-        const slider = document.createElement('input');
-        slider.type = 'range';
-        slider.min = setting.min;
-        slider.max = setting.max;
-        slider.step = setting.step;
-        slider.value = setting.value;
-
         const value = document.createElement('span');
         value.className = 'value-display';
-        value.textContent = setting.value;
 
-        slider.oninput = () => {
-          setting.value = parseFloat(slider.value);
-          value.textContent = Number(slider.value).toFixed(3);
-          this.onChange(this.config);
-        };
+        if (setting.type === 'boolean') {
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.checked = setting.value;
+          value.textContent = setting.value ? 'on' : 'off';
 
-        container.appendChild(label);
-        container.appendChild(value);
-        container.appendChild(slider);
+          checkbox.onchange = () => {
+            setting.value = checkbox.checked;
+            value.textContent = checkbox.checked ? 'on' : 'off';
+            this.onChange(this.config);
+          };
+
+          container.appendChild(label);
+          container.appendChild(value);
+          container.appendChild(checkbox);
+        } else {
+          const slider = document.createElement('input');
+          slider.type = 'range';
+          slider.min = setting.min;
+          slider.max = setting.max;
+          slider.step = setting.step;
+          slider.value = setting.value;
+
+          value.textContent = setting.value;
+
+          slider.oninput = () => {
+            setting.value = parseFloat(slider.value);
+            value.textContent = Number(slider.value).toFixed(1);
+            this.onChange(this.config);
+          };
+
+          container.appendChild(label);
+          container.appendChild(value);
+          container.appendChild(slider);
+        }
+
         section.appendChild(container);
       });
 

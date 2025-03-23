@@ -9,8 +9,8 @@ const config = {
     fontSize: { value: 2, min: 0.5, max: 5, step: 0.1, label: 'Font Size' }
   },
   appearance: {
-    useGreek: { value: 1, min: 0, max: 1, step: 1, label: 'Greek Letters' },
-    useLatin: { value: 1, min: 0, max: 1, step: 1, label: 'Latin Letters' },
+    useGreek: { value: true, type: 'boolean', label: 'Greek Letters' },
+    useLatin: { value: true, type: 'boolean', label: 'Latin Letters' },
     colorCount: { value: 8, min: 2, max: 16, step: 1, label: 'Colors' }
   }
 };

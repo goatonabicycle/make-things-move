@@ -11,18 +11,18 @@
         interaction: {
           radius: { value: 14, min: 3, max: 30, step: 1, label: 'Effect Radius' },
           fadeOutSpeed: { value: 2000, min: 0, max: 10000, step: 100, label: 'Fade Out (ms)' },
-          clearOnLeave: { value: 1, min: 0, max: 1, step: 1, label: 'Clear On Leave' }
+          clearOnLeave: { value: true, type: 'boolean', label: 'Clear On Leave' }
         },
         appearance: {
           fontSize: { value: 1, min: 0.5, max: 3, step: 0.1, label: 'Font Size' },
-          useGreek: { value: 1, min: 0, max: 1, step: 1, label: 'Greek Letters' },
-          useLatin: { value: 1, min: 0, max: 1, step: 1, label: 'Latin Letters' },
+          useGreek: { value: true, type: 'boolean', label: 'Greek Letters' },
+          useLatin: { value: true, type: 'boolean', label: 'Latin Letters' },
           colorCount: { value: 5, min: 1, max: 10, step: 1, label: 'Colors' }
         },
         effects: {
-          pulse: { value: 1, min: 0, max: 1, step: 1, label: 'Pulse Effect' },
-          shadow: { value: 1, min: 0, max: 1, step: 1, label: 'Shadow Effect' },
-          rotation: { value: 0, min: 0, max: 1, step: 1, label: 'Rotation' }
+          pulse: { value: true, type: 'boolean', label: 'Pulse Effect' },
+          shadow: { value: true, type: 'boolean', label: 'Shadow Effect' },
+          rotation: { value: false, type: 'boolean', label: 'Rotation' }
         }
       };
 
