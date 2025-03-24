@@ -18,12 +18,15 @@
           maxSize: { value: 25, min: 5, max: 50, step: 1, label: 'Max Size (vh)' }
         },
         appearance: {
-          useCustomChars: { value: true, type: 'boolean', label: 'Custom Chars' },
           backgroundColor: { value: 1, min: 0, max: 3, step: 1, label: 'BG Color' }
         },
         orbit: {
-          radiusMultiplier: { value: 1, min: 0.1, max: 5, step: 0.1, label: 'Radius Multiplier' },
-          speedMultiplier: { value: 1, min: 0.1, max: 5, step: 0.1, label: 'Speed Multiplier' }
+          minRadius: { value: 1000, min: 500, max: 2000, step: 100, label: 'Min Orbit Radius' },
+          maxRadius: { value: 2000, min: 1000, max: 4000, step: 100, label: 'Max Orbit Radius' },
+          speedMultiplier: { value: 1, min: 0.1, max: 3, step: 0.1, label: 'Orbit Speed' }
+        },
+        text: {
+          length: { value: 10, min: 5, max: 20, step: 1, label: 'Text Length' }
         }
       };
     }
@@ -32,8 +35,8 @@
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    getRandomCharacters(length = 10, customCharacters = null) {
-      const characters = customCharacters || "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    getRandomCharacters(length = 10) {
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       let result = "";
       for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -41,8 +44,10 @@
       return result;
     }
 
-    getRandomChanges(numChanges, interval, shapeStylesFn, customCharacters = null) {
+    getRandomChanges(numChanges, interval, shapeStylesFn) {
       const changes = [];
+      const textLength = this.config.text.length.value;
+
       for (let i = 0; i < numChanges; i++) {
         changes.push({
           time: i * interval,
@@ -51,7 +56,7 @@
             zIndex: Math.floor(Math.random() * 10) + 1,
             transition: "all 0.5s ease-in-out"
           },
-          content: this.getRandomCharacters(10, customCharacters)
+          content: this.getRandomCharacters(textLength)
         });
       }
       return changes;
@@ -60,11 +65,12 @@
     getRandomOrbitPath() {
       const centerX = window.innerWidth / 2;
       const centerY = window.innerHeight / 2;
-      const radiusMultiplier = this.config.orbit.radiusMultiplier.value;
+      const minRadius = this.config.orbit.minRadius.value;
+      const maxRadius = this.config.orbit.maxRadius.value;
       const speedMultiplier = this.config.orbit.speedMultiplier.value;
 
-      const radiusX = Math.random() * (window.innerWidth / 2) * radiusMultiplier + 1000;
-      const radiusY = Math.random() * (window.innerHeight / 2) * radiusMultiplier + 1000;
+      const radiusX = Math.random() * (maxRadius - minRadius) + minRadius;
+      const radiusY = Math.random() * (maxRadius - minRadius) + minRadius;
       const speed = (Math.random() * 0.01 + 0.005) * speedMultiplier;
 
       return { centerX, centerY, radiusX, radiusY, speed };
@@ -96,7 +102,12 @@
         transition: "all 1s linear",
         zIndex: Math.floor(Math.random() * 100),
         top: `${Math.random() * 100}vh`,
-        left: `${Math.random() * 100}vw`
+        left: `${Math.random() * 100}vw`,
+        fontSize: `${size * 0.4}vh`,
+        textAlign: "center",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
       };
     }
 
@@ -130,7 +141,8 @@
     handleTimeBasedChanges(element, changes, duration, initialState) {
       changes.forEach((change) => {
         setTimeout(() => {
-          this.applyStyles(element, change.styles);
+          // Apply all styles including colors
+          Object.assign(element.style, change.styles);
           if (change.content !== undefined) {
             element.innerHTML = `<div>${change.content}</div>`;
           }
@@ -138,7 +150,8 @@
       });
 
       setTimeout(() => {
-        this.applyInitialState(element, initialState);
+        // Reset to initial state including colors
+        Object.assign(element.style, initialState);
         element.innerHTML = `<div>${initialState.content}</div>`;
         this.handleTimeBasedChanges(element, changes, duration, initialState);
       }, duration);
@@ -151,31 +164,36 @@
       const animationDuration = durationSec * 1000;
       const beatInterval = (60 / bpm) * 1000;
       const numChanges = Math.ceil(animationDuration / beatInterval);
-      const useCustomChars = this.config.appearance.useCustomChars.value;
+      const textLength = this.config.text.length.value;
 
       this.elements = [];
 
       for (let i = 0; i < elementCount; i++) {
+        const size = Math.random() * 20 + 5;
         this.elements.push({
           id: `div${i + 1}`,
-          content: this.getRandomCharacters(10, useCustomChars ? "GHIJKLM" : null),
+          content: this.getRandomCharacters(textLength),
           initialState: {
-            width: `${Math.random() * 20 + 5}vh`,
-            height: `${Math.random() * 20 + 5}vh`,
+            width: `${size}vh`,
+            height: `${size}vh`,
             backgroundColor: "#77CCCC",
             borderRadius: "50%",
             position: "absolute",
             transition: "all 1s linear",
             zIndex: Math.floor(Math.random() * 100),
             top: `${Math.random() * 100}vh`,
-            left: `${Math.random() * 100}vw`
+            left: `${Math.random() * 100}vw`,
+            fontSize: `${size * 0.4}vh`,
+            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
           },
           timeline: {
             change: this.getRandomChanges(
               numChanges,
               beatInterval,
-              () => this.getCircleStyles(),
-              useCustomChars ? "GHIJKLM" : null
+              () => this.getCircleStyles()
             ),
             orbit: this.getRandomOrbitPath(),
             duration: animationDuration
@@ -187,13 +205,32 @@
     }
 
     applyConfigStyles() {
+      // Remove any existing style element
+      const existingStyle = document.querySelector('style[data-conspiring-styles]');
+      if (existingStyle) {
+        existingStyle.remove();
+      }
+
+      const styleElement = document.createElement("style");
+      styleElement.setAttribute('data-conspiring-styles', '');
+
       const bgColors = ["brown", "#1a1a1a", "#003366", "#660033"];
       const bgColor = bgColors[this.config.appearance.backgroundColor.value];
 
-      const styleElement = document.createElement("style");
       styleElement.innerHTML = `
         body {
-          background-color: ${bgColor};         
+          background-color: ${bgColor};
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+        }
+        .centered-text {
+          font-family: monospace;
+          font-weight: bold;
+          text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .centered-text div {
+          color: inherit;
         }
       `;
       document.head.appendChild(styleElement);
