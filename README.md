@@ -1,6 +1,4 @@
-This is really nothing right now. 
-
-I intend for it to be a cool collection of silly animation stuff.
+This is a movement/art mechanism. Basically making things move with some interesting options to make it more wild. 
 
 # What is a module? 
 
