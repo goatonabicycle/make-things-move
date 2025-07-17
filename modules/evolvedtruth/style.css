@@ -1,11 +1,24 @@
-#checkboxContainer {
+body, html {
+  margin: 0;
+  padding: 0;
   height: 100%;
-  margin-top: 100px;
+  width: 100%;
+  overflow: hidden;
+  background-color: #1a1a1a;
+}
+
+#checkboxContainer {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
+/* These styles are overridden in JavaScript */
 input[type="checkbox"] {
   accent-color: #c70039;
   width: 30px;
