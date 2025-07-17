@@ -3,43 +3,91 @@
 
   const numberOfCheckboxes = 47;
   const timeout = 100;
+  const middleIndex = Math.floor(numberOfCheckboxes / 2);
 
-  const checkLeftAndRight = (clickedCheckboxIndex, direction) => {
+  checkboxContainer.style.position = "relative";
+  checkboxContainer.style.display = "flex";
+  checkboxContainer.style.justifyContent = "center";
+  checkboxContainer.style.alignItems = "center";
+  checkboxContainer.style.height = "100vh";
+  checkboxContainer.style.width = "100vw";
+
+  const horizontalContainer = document.createElement("div");
+  horizontalContainer.style.display = "flex";
+  horizontalContainer.style.position = "absolute";
+
+  const verticalContainer = document.createElement("div");
+  verticalContainer.style.display = "flex";
+  verticalContainer.style.flexDirection = "column";
+  verticalContainer.style.position = "absolute";
+
+  checkboxContainer.appendChild(horizontalContainer);
+  checkboxContainer.appendChild(verticalContainer);
+
+  const checkInDirection = (clickedIndex, direction, isHorizontal) => {
     setTimeout(() => {
-      const currentCheckbox = document.getElementById("checkbox" + clickedCheckboxIndex);
-      currentCheckbox.checked = false;
+      const currentCheckbox = document.getElementById(`checkbox${isHorizontal ? 'h'
+        : 'v'}${clickedIndex}`);
+      if (currentCheckbox) {
+        currentCheckbox.checked = false;
+      }
 
-      if (direction === "left") {
-        const oneLeftIndex = clickedCheckboxIndex - 1;
-        if (oneLeftIndex >= 0) {
-          const leftCheckbox = document.getElementById("checkbox" + oneLeftIndex);
-          leftCheckbox.checked = true;
-          checkLeftAndRight(oneLeftIndex, "left");
-        }
-      } else if (direction === "right") {
-        const oneRightIndex = clickedCheckboxIndex + 1;
-        if (oneRightIndex < numberOfCheckboxes) {
-          const rightCheckbox = document.getElementById("checkbox" + oneRightIndex);
-          rightCheckbox.checked = true;
-          checkLeftAndRight(oneRightIndex, "right");
+      if (clickedIndex === middleIndex) {
+        triggerPerpendicularWave(isHorizontal);
+      }
+
+      const nextIndex = direction === "left" || direction === "up" ? clickedIndex -
+        1 : clickedIndex + 1;
+
+      if (nextIndex >= 0 && nextIndex < numberOfCheckboxes) {
+        const nextCheckbox = document.getElementById(`checkbox${isHorizontal ? 'h' :
+          'v'}${nextIndex}`);
+        if (nextCheckbox) {
+          nextCheckbox.checked = true;
+          checkInDirection(nextIndex, direction, isHorizontal);
         }
       }
     }, timeout);
   };
 
-  const middleOut = (e) => {
-    const clickedCheckboxIndex = parseInt(e.target.id.split("checkbox")[1]);
-    checkLeftAndRight(clickedCheckboxIndex, "left");
-    checkLeftAndRight(clickedCheckboxIndex, "right");
+  const triggerPerpendicularWave = (wasHorizontal) => {
+    setTimeout(() => {
+      checkInDirection(middleIndex, "up", !wasHorizontal);
+      checkInDirection(middleIndex, "down", !wasHorizontal);
+    }, 50);
+  };
+
+  const handleClick = (e) => {
+    const isHorizontal = e.target.id.includes('h');
+    const clickedIndex = parseInt(e.target.id.match(/\d+/)[0]);
+
+    if (clickedIndex === middleIndex) {
+      checkInDirection(clickedIndex, "left", true);
+      checkInDirection(clickedIndex, "right", true);
+      checkInDirection(clickedIndex, "up", false);
+      checkInDirection(clickedIndex, "down", false);
+    } else if (isHorizontal) {
+      checkInDirection(clickedIndex, "left", true);
+      checkInDirection(clickedIndex, "right", true);
+    } else {
+      checkInDirection(clickedIndex, "up", false);
+      checkInDirection(clickedIndex, "down", false);
+    }
   };
 
   for (let i = 0; i < numberOfCheckboxes; i++) {
-    let checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = "checkbox" + i;
+    const hCheckbox = document.createElement("input");
+    hCheckbox.type = "checkbox";
+    hCheckbox.id = `checkboxh${i}`;
+    hCheckbox.addEventListener("change", handleClick);
+    horizontalContainer.appendChild(hCheckbox);
 
-    checkbox.addEventListener("change", middleOut);
-
-    checkboxContainer.appendChild(checkbox);
+    if (i !== middleIndex) {
+      const vCheckbox = document.createElement("input");
+      vCheckbox.type = "checkbox";
+      vCheckbox.id = `checkboxv${i}`;
+      vCheckbox.addEventListener("change", handleClick);
+      verticalContainer.appendChild(vCheckbox);
+    }
   }
 })();
