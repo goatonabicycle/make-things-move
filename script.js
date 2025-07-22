@@ -1,5 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll(".module-nav button");
+  const menuToggle = document.querySelector(".menu-toggle");
+  const moduleNav = document.querySelector(".module-nav");
+  const navOverlay = document.querySelector(".nav-overlay");
+
+  menuToggle.addEventListener("click", () => {
+    const isActive = menuToggle.classList.contains("active");
+    menuToggle.classList.toggle("active");
+    moduleNav.classList.toggle("active");
+    navOverlay.classList.toggle("active");
+  });
+
+  navOverlay.addEventListener("click", () => {
+    menuToggle.classList.remove("active");
+    moduleNav.classList.remove("active");
+    navOverlay.classList.remove("active");
+  });
 
   const loadModule = (moduleName) => {
     window.location.href = `?m=${moduleName}`;
@@ -8,6 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       const moduleName = button.getAttribute("data-module");
+      // Close menu after selection
+      menuToggle.classList.remove("active");
+      moduleNav.classList.remove("active");
+      navOverlay.classList.remove("active");
       loadModule(moduleName);
     });
   });
@@ -34,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       const html = await fetch(`modules/${moduleName}/index.html`).then(res => res.text());
-      moduleContent.innerHTML = html;
+      moduleContent.innerHTML = `<div class="module-frame">${html}</div>`;
 
       await loadScript(`modules/${moduleName}/script.js?v=${Date.now()}`);
 

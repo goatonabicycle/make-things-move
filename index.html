@@ -9,6 +9,9 @@
 </head>
 <body>
     <header>
+        <button class="menu-toggle" aria-label="Toggle navigation menu">
+            <span class="hamburger"></span>
+        </button>
         <nav class="module-nav">
             <button data-module="mspaint">Microsoft Paint</button>
             <button data-module="uniquedoesnotmeangood">Unique Does Not Mean Good</button>
@@ -25,11 +28,16 @@
             <button data-module="whereevenami">Where Even Am I</button>
             <button data-module="branching">Branching</button>
         </nav>
+        <div class="nav-overlay"></div>
     </header>
     <main id="module-content">
-        <div class="default">Hey! This is a silly art focused project.</div>
-        <a href="www.github.com/goatonabicycle">Github</a>
-        <div class="default">Select a module to begin</div>
+        <div class="module-frame">
+            <div class="default-content">
+                <div class="default">Hey! This is a silly art focused project.</div>
+                <a href="https://github.com/goatonabicycle">Github</a>
+                <div class="default">Select a module to begin</div>
+            </div>
+        </div>
     </main>
     <script src="script.js"></script>
 </body>
