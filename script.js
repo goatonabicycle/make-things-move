@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const loadModule = (moduleName) => {
-    window.location.href = `?m=${moduleName}`;
+    // Update URL without refresh
+    window.history.pushState({ module: moduleName }, '', `?m=${moduleName}`);
+    loadModuleContent(moduleName);
   };
 
   buttons.forEach((button) => {

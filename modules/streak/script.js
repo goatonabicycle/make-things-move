@@ -115,7 +115,8 @@
 
         position = (position + 1) % columns;
         if (position === 0) {
-          position = (rowOffset + 1) % rows * columns;
+          const currentRow = Math.floor(position / columns);
+          position = ((currentRow + 1) % rows) * columns;
         }
       };
 
