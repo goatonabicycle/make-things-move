@@ -1,3 +1,4 @@
+(function() {
 const config = {
   grid: {
     rows: { value: 50, min: 10, max: 100, step: 5, label: 'Rows' },
@@ -113,4 +114,6 @@ function cleanup() {
 }
 
 init();
+window.cleanup = cleanup;
 window.addEventListener('beforeunload', cleanup);
+})();

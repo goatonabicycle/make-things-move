@@ -22,6 +22,9 @@ class ModuleManager {
       await this.module.init();
     }
 
+    window.cleanup = () => this.cleanup();
+    window.moduleManager = this;
+
     window.addEventListener('beforeunload', this.cleanup);
   }
 

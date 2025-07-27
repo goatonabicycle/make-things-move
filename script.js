@@ -1,24 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll(".module-nav button");
-  const menuToggle = document.querySelector(".menu-toggle");
-  const moduleNav = document.querySelector(".module-nav");
-  const navOverlay = document.querySelector(".nav-overlay");
-
-  menuToggle.addEventListener("click", () => {
-    const isActive = menuToggle.classList.contains("active");
-    menuToggle.classList.toggle("active");
-    moduleNav.classList.toggle("active");
-    navOverlay.classList.toggle("active");
-  });
-
-  navOverlay.addEventListener("click", () => {
-    menuToggle.classList.remove("active");
-    moduleNav.classList.remove("active");
-    navOverlay.classList.remove("active");
-  });
+  const navScroll = document.querySelector(".nav-scroll");
 
   const loadModule = (moduleName) => {
-    // Update URL without refresh
+
     window.history.pushState({ module: moduleName }, '', `?m=${moduleName}`);
     loadModuleContent(moduleName);
   };
@@ -26,10 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
       const moduleName = button.getAttribute("data-module");
-      // Close menu after selection
-      menuToggle.classList.remove("active");
-      moduleNav.classList.remove("active");
-      navOverlay.classList.remove("active");
       loadModule(moduleName);
     });
   });
@@ -76,9 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function loadScript(src) {
-    const script = document.createElement("script");
-    script.src = src;
-    document.body.appendChild(script);
+    return new Promise((resolve, reject) => {
+      const existingScript = document.querySelector(`script[src="${src}"]`);
+      if (existingScript) {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
+    });
   }
 
   const urlParams = new URLSearchParams(window.location.search);

@@ -1,5 +1,19 @@
 (function () {
   const gridContainer = document.getElementById("grid-container");
+  const timerElement = document.createElement("div");
+  timerElement.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 18px;
+    z-index: 1000;
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 5px;
+  `;
+  timerElement.textContent = "Time: 0s";
+  document.body.appendChild(timerElement);
 
   const BPM = 90;
   const ANIMATION_DURATION = 30000;
@@ -255,11 +269,25 @@
     startTime = Date.now();
   };
 
+  let timerRunning = true;
+  let timerAnimationId;
+
   const updateTimer = () => {
+    if (!timerRunning) return;
     const elapsed = Date.now() - startTime;
     const seconds = Math.floor(elapsed / 1000) % 60;
     timerElement.textContent = `Time: ${seconds}s`;
-    requestAnimationFrame(updateTimer);
+    timerAnimationId = requestAnimationFrame(updateTimer);
+  };
+
+  window.cleanup = () => {
+    timerRunning = false;
+    if (timerAnimationId) {
+      cancelAnimationFrame(timerAnimationId);
+    }
+    if (timerElement && timerElement.parentNode) {
+      timerElement.remove();
+    }
   };
 
   createElements(config);
