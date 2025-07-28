@@ -1,5 +1,6 @@
-(async function () {
-  class CombinedModule {
+import { ModuleManager } from '../../moduleManager.js';
+
+class CombinedModule {
     constructor() {
       this.container = null;
       this.animationFrameId = null;
@@ -211,6 +212,7 @@
     }
   }
 
+export async function init() {
   const moduleManager = new ModuleManager();
   await moduleManager.init(CombinedModule);
-})();
+}

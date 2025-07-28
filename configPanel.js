@@ -1,4 +1,4 @@
-class ConfigPanel {
+export class ConfigPanel {
   constructor(config, onChange = () => { }) {
     this.config = config;
     this.onChange = onChange;
@@ -390,5 +390,3 @@ class ConfigPanel {
     }
   }
 }
-
-window.ConfigPanel = ConfigPanel;

@@ -1,5 +1,6 @@
-(async function () {
-  class MSPaintModule {
+import { ModuleManager } from '../../moduleManager.js';
+
+class MSPaintModule {
     constructor() {
       this.container = null;
       this.colors = ["#FF6347", "#40E0D0", "#DAA520", "#FF69B4", "#BA55D3"];
@@ -131,7 +132,7 @@
     }
   }
 
-
+export async function init() {
   const moduleManager = new ModuleManager();
   await moduleManager.init(MSPaintModule);
-})();
+}

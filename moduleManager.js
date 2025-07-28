@@ -1,4 +1,6 @@
-class ModuleManager {
+import { ConfigPanel } from './configPanel.js';
+
+export class ModuleManager {
   constructor() {
     this.panel = null;
     this.config = null;
@@ -41,5 +43,3 @@ class ModuleManager {
     window.removeEventListener('beforeunload', this.cleanup);
   }
 }
-
-window.ModuleManager = ModuleManager;

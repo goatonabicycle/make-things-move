@@ -1,5 +1,6 @@
-(async function () {
-  class BranchingModule {
+import { ModuleManager } from '../../moduleManager.js';
+
+class BranchingModule {
     constructor() {
       this.container = null;
       this.ctx = null;
@@ -150,6 +151,7 @@
     }
   }
 
+export async function init() {
   const moduleManager = new ModuleManager();
   await moduleManager.init(BranchingModule);
-})(); 
+} 

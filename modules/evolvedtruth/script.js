@@ -1,5 +1,6 @@
-(async function () {
-  class EvolvedTruthModule {
+import { ModuleManager } from '../../moduleManager.js';
+
+class EvolvedTruthModule {
     constructor() {
       this.checkboxContainer = document.getElementById("checkboxContainer");
       this.container = null;
@@ -335,6 +336,7 @@
     }
   }
 
+export async function init() {
   const moduleManager = new ModuleManager();
   await moduleManager.init(EvolvedTruthModule);
-})();
+}

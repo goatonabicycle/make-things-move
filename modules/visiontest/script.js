@@ -1,39 +1,47 @@
-(function () {
-  const gridContainer = document.getElementById("grid-container");
-  const timerElement = document.createElement("div");
-  timerElement.style.cssText = `
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    color: white;
-    font-size: 18px;
-    z-index: 1000;
-    background: rgba(0,0,0,0.5);
-    padding: 10px;
-    border-radius: 5px;
-  `;
-  timerElement.textContent = "Time: 0s";
-  document.body.appendChild(timerElement);
+import { ModuleManager } from '../../moduleManager.js';
 
-  const BPM = 90;
-  const ANIMATION_DURATION = 30000;
-  const beatInterval = (60 / BPM) * 1000;
-  const numChanges = Math.ceil(ANIMATION_DURATION / beatInterval);
+class VisionTestModule {
+  constructor() {
+    this.gridContainer = null;
+    this.timerElement = null;
+    this.timerRunning = false;
+    this.timerAnimationId = null;
+    this.startTime = 0;
+    this.resetInterval = null;
 
-  const colours = ["#FF6699", "#FF9933", "#FFCC33", "#99CC33", "#66CCCC", "#FF6666", "#FFCC99", "#CCCCFF", "#CCFF66", "#FFFF66"];
+    this.config = {
+      animation: {
+        bpm: { value: 90, min: 60, max: 180, step: 5, label: 'BPM' },
+        duration: { value: 30, min: 10, max: 60, step: 5, label: 'Duration (s)' }
+      },
+      shapes: {
+        triangles: { value: 3, min: 1, max: 10, step: 1, label: 'Triangles' },
+        circles: { value: 5, min: 1, max: 15, step: 1, label: 'Circles' },
+        squares: { value: 20, min: 5, max: 50, step: 5, label: 'Squares' }
+      }
+    };
 
-  const getRandomRetroColor = () => colours[Math.floor(Math.random() * colours.length)];
-  const getRandomDuration = (min = 1000, max = 20000) => Math.floor(Math.random() * (max - min + 1)) + min;
+    this.colours = ["#FF6699", "#FF9933", "#FFCC33", "#99CC33", "#66CCCC", "#FF6666", "#FFCC99", "#CCCCFF", "#CCFF66", "#FFFF66"];
+    this.elements = [];
+  }
 
-  const getRandomCharacters = (length = 10, customCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") => {
+  getRandomRetroColor() {
+    return this.colours[Math.floor(Math.random() * this.colours.length)];
+  }
+
+  getRandomDuration(min = 1000, max = 20000) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  getRandomCharacters(length = 10, customCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") {
     let result = "";
     for (let i = 0; i < length; i++) {
       result += customCharacters.charAt(Math.floor(Math.random() * customCharacters.length));
     }
     return result;
-  };
+  }
 
-  const getRandomChanges = (numChanges, interval, shapeStylesFn, customCharacters = null) => {
+  getRandomChanges(numChanges, interval, shapeStylesFn, customCharacters = null) {
     const changes = [];
     for (let i = 0; i < numChanges; i++) {
       changes.push({
@@ -43,30 +51,30 @@
           zIndex: Math.floor(Math.random() * 10) + 1,
           transition: "all 0.5s ease-in-out"
         },
-        content: getRandomCharacters(10, customCharacters)
+        content: this.getRandomCharacters(10, customCharacters)
       });
     }
     return changes;
-  };
+  }
 
-  const getRandomOrbitPath = () => {
+  getRandomOrbitPath() {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     const radiusX = Math.random() * (window.innerWidth / 2) + 1000;
     const radiusY = Math.random() * (window.innerHeight / 2) + 1000;
     const speed = Math.random() * 0.01 + 0.005;
     return { centerX, centerY, radiusX, radiusY, speed };
-  };
+  }
 
-  const applyInitialState = (element, state) => {
+  applyInitialState(element, state) {
     Object.entries(state).forEach(([key, value]) => (element.style[key] = value));
-  };
+  }
 
-  const applyStyles = (element, styles) => {
+  applyStyles(element, styles) {
     Object.entries(styles).forEach(([key, value]) => (element.style[key] = value));
-  };
+  }
 
-  const getShapeStyles = (shape, options = {}) => {
+  getShapeStyles(shape, options = {}) {
     const { color, borderColor, additionalStyles } = options;
     const baseStyles = {
       top: `${Math.random() * 100}vh`,
@@ -95,20 +103,20 @@
     };
 
     return { ...baseStyles, ...shapeSpecificStyles[shape], ...additionalStyles };
-  };
+  }
 
-  const createElements = (config) => {
+  createElements(config) {
     config.forEach((item) => {
       const element = document.createElement("div");
       element.id = item.id;
       element.classList.add("centered-text");
       element.innerHTML = `<div>${item.content || ""}</div>`;
-      applyInitialState(element, item.initialState);
-      gridContainer.appendChild(element);
+      this.applyInitialState(element, item.initialState);
+      this.gridContainer.appendChild(element);
     });
-  };
+  }
 
-  const animateRotation = (element, clockwiseDuration = 5000, anticlockwiseDuration = 5000) => {
+  animateRotation(element, clockwiseDuration = 5000, anticlockwiseDuration = 5000) {
     if (!clockwiseDuration || !anticlockwiseDuration) return;
     let rotationStartTime = Date.now();
     let clockwise = true;
@@ -128,9 +136,9 @@
       requestAnimationFrame(animate);
     };
     animate();
-  };
+  }
 
-  const animateOrbit = (element, orbit) => {
+  animateOrbit(element, orbit) {
     const { centerX, centerY, radiusX, radiusY, speed } = orbit;
     let startTime = Date.now();
 
@@ -144,12 +152,12 @@
       requestAnimationFrame(animate);
     };
     animate();
-  };
+  }
 
-  const handleTimeBasedChanges = (element, changes, duration, initialState) => {
+  handleTimeBasedChanges(element, changes, duration, initialState) {
     changes.forEach((change) => {
       setTimeout(() => {
-        applyStyles(element, change.styles);
+        this.applyStyles(element, change.styles);
         if (change.content !== undefined) {
           element.innerHTML = `<div>${change.content}</div>`;
         }
@@ -157,143 +165,196 @@
     });
 
     setTimeout(() => {
-      applyInitialState(element, initialState);
+      this.applyInitialState(element, initialState);
       element.innerHTML = `<div>${initialState.content}</div>`;
-      handleTimeBasedChanges(element, changes, duration, initialState);
+      this.handleTimeBasedChanges(element, changes, duration, initialState);
     }, duration);
-  };
+  }
 
-  const generateConfig = () => {
+  generateConfig() {
+    const BPM = this.config.animation.bpm.value;
+    const ANIMATION_DURATION = this.config.animation.duration.value * 1000;
+    const beatInterval = (60 / BPM) * 1000;
+    const numChanges = Math.ceil(ANIMATION_DURATION / beatInterval);
     const elements = [];
 
-    for (let i = 0; i < 3; i++) {
+    // Triangles
+    for (let i = 0; i < this.config.shapes.triangles.value; i++) {
       elements.push({
         id: `triangle${i + 1}`,
-        content: getRandomCharacters(10, "ABCDEF"),
+        content: this.getRandomCharacters(10, "ABCDEF"),
         initialState: {
-          ...getShapeStyles("triangle", { color: i === 2 ? "#FFFFFF" : "#000000", additionalStyles: { borderColor: getRandomRetroColor() } }),
+          ...this.getShapeStyles("triangle", { color: i === 2 ? "#FFFFFF" : "#000000", additionalStyles: { borderColor: this.getRandomRetroColor() } }),
           position: "absolute",
           transition: "all 0.5s ease-in-out",
           zIndex: 1
         },
         timeline: {
-          rotate: { clockwiseDuration: getRandomDuration(5000, 10000), anticlockwiseDuration: getRandomDuration(5000, 10000) },
-          change: getRandomChanges(
+          rotate: { clockwiseDuration: this.getRandomDuration(5000, 10000), anticlockwiseDuration: this.getRandomDuration(5000, 10000) },
+          change: this.getRandomChanges(
             numChanges,
             beatInterval,
-            () => getShapeStyles("triangle", { color: i === 2 ? "#FFFFFF" : getRandomRetroColor(), additionalStyles: { borderColor: getRandomRetroColor() } }),
+            () => this.getShapeStyles("triangle", { color: i === 2 ? "#FFFFFF" : this.getRandomRetroColor(), additionalStyles: { borderColor: this.getRandomRetroColor() } }),
             "ABCDEF"
           ),
-          orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
+          orbit: Math.random() < 0.5 ? this.getRandomOrbitPath() : undefined,
           duration: ANIMATION_DURATION
         }
       });
     }
 
-    for (let i = 0; i < 5; i++) {
+    // Circles
+    for (let i = 0; i < this.config.shapes.circles.value; i++) {
       elements.push({
         id: `circle${i + 1}`,
-        content: getRandomCharacters(10, "ABCDEF"),
+        content: this.getRandomCharacters(10, "ABCDEF"),
         initialState: {
-          ...getShapeStyles("circle", { color: "#000000", additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" } }),
+          ...this.getShapeStyles("circle", { color: "#000000", additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" } }),
           position: "absolute",
           transition: "all 0.5s ease-in-out",
           zIndex: 1
         },
         timeline: {
-          rotate: { clockwiseDuration: getRandomDuration(5000, 10000), anticlockwiseDuration: getRandomDuration(5000, 10000) },
-          change: getRandomChanges(
+          rotate: { clockwiseDuration: this.getRandomDuration(5000, 10000), anticlockwiseDuration: this.getRandomDuration(5000, 10000) },
+          change: this.getRandomChanges(
             numChanges,
             beatInterval,
-            () => getShapeStyles("circle", { color: "#000000", additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" } }),
+            () => this.getShapeStyles("circle", { color: "#000000", additionalStyles: { filter: "blur(2px)", color: "#FFFFFF" } }),
             "ABCDEF"
           ),
-          orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
+          orbit: Math.random() < 0.5 ? this.getRandomOrbitPath() : undefined,
           duration: ANIMATION_DURATION
         }
       });
     }
 
-    for (let i = 0; i < 20; i++) {
-      const color = i < 7 ? "#FF0000" : i < 14 ? "#0000FF" : getRandomRetroColor();
+    // Squares
+    for (let i = 0; i < this.config.shapes.squares.value; i++) {
+      const color = i < 7 ? "#FF0000" : i < 14 ? "#0000FF" : this.getRandomRetroColor();
       const borderColor = i % 2 === 0 ? "#FFFFFF" : "#000000";
       elements.push({
         id: `square${i + 1}`,
-        content: getRandomCharacters(10, "ABCDEF"),
+        content: this.getRandomCharacters(10, "ABCDEF"),
         initialState: {
-          ...getShapeStyles("square", { color, borderColor, additionalStyles: { boxShadow: `0 0 10px ${color}` } }),
+          ...this.getShapeStyles("square", { color, borderColor, additionalStyles: { boxShadow: `0 0 10px ${color}` } }),
           position: "absolute",
           transition: "all 0.5s ease-in-out",
           zIndex: 1
         },
         timeline: {
-          rotate: { clockwiseDuration: getRandomDuration(5000, 10000), anticlockwiseDuration: getRandomDuration(5000, 10000) },
-          change: getRandomChanges(
+          rotate: { clockwiseDuration: this.getRandomDuration(5000, 10000), anticlockwiseDuration: this.getRandomDuration(5000, 10000) },
+          change: this.getRandomChanges(
             numChanges,
             beatInterval,
-            () => getShapeStyles("square", { color: getRandomRetroColor(), borderColor, additionalStyles: { boxShadow: `0 0 10px ${getRandomRetroColor()}` } }),
+            () => this.getShapeStyles("square", { color: this.getRandomRetroColor(), borderColor, additionalStyles: { boxShadow: `0 0 10px ${this.getRandomRetroColor()}` } }),
             "ABCDEF"
           ),
-          orbit: Math.random() < 0.5 ? getRandomOrbitPath() : undefined,
+          orbit: Math.random() < 0.5 ? this.getRandomOrbitPath() : undefined,
           duration: ANIMATION_DURATION
         }
       });
     }
 
     return elements;
-  };
+  }
 
-  const config = generateConfig();
-
-  const animateElements = (config) => {
+  animateElements(config) {
     config.forEach((item) => {
       const element = document.getElementById(item.id);
       if (item.timeline.rotate) {
         const { clockwiseDuration, anticlockwiseDuration } = item.timeline.rotate;
-        animateRotation(element, clockwiseDuration, anticlockwiseDuration);
+        this.animateRotation(element, clockwiseDuration, anticlockwiseDuration);
       }
       if (item.timeline.orbit) {
-        animateOrbit(element, item.timeline.orbit);
+        this.animateOrbit(element, item.timeline.orbit);
       }
       if (item.timeline.change) {
-        handleTimeBasedChanges(element, item.timeline.change, item.timeline.duration, item.initialState);
+        this.handleTimeBasedChanges(element, item.timeline.change, item.timeline.duration, item.initialState);
       }
     });
-  };
+  }
 
-  const resetAndRestart = () => {
-    const elements = gridContainer.querySelectorAll(".centered-text");
+  resetAndRestart() {
+    const elements = this.gridContainer.querySelectorAll(".centered-text");
     elements.forEach((element) => element.remove());
-    createElements(config);
-    animateElements(config);
-    startTime = Date.now();
-  };
+    this.elements = this.generateConfig();
+    this.createElements(this.elements);
+    this.animateElements(this.elements);
+    this.startTime = Date.now();
+  }
 
-  let timerRunning = true;
-  let timerAnimationId;
-
-  const updateTimer = () => {
-    if (!timerRunning) return;
-    const elapsed = Date.now() - startTime;
+  updateTimer() {
+    if (!this.timerRunning) return;
+    const elapsed = Date.now() - this.startTime;
     const seconds = Math.floor(elapsed / 1000) % 60;
-    timerElement.textContent = `Time: ${seconds}s`;
-    timerAnimationId = requestAnimationFrame(updateTimer);
-  };
+    this.timerElement.textContent = `Time: ${seconds}s`;
+    this.timerAnimationId = requestAnimationFrame(() => this.updateTimer());
+  }
 
-  window.cleanup = () => {
-    timerRunning = false;
-    if (timerAnimationId) {
-      cancelAnimationFrame(timerAnimationId);
-    }
-    if (timerElement && timerElement.parentNode) {
-      timerElement.remove();
-    }
-  };
+  init() {
+    this.gridContainer = document.getElementById("grid-container");
+    
+    this.timerElement = document.createElement("div");
+    this.timerElement.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-size: 18px;
+      z-index: 1000;
+      background: rgba(0,0,0,0.5);
+      padding: 10px;
+      border-radius: 5px;
+    `;
+    this.timerElement.textContent = "Time: 0s";
+    document.body.appendChild(this.timerElement);
 
-  createElements(config);
-  animateElements(config);
-  let startTime = Date.now();
-  updateTimer();
-  const maxDuration = Math.max(...config.map((item) => item.timeline.duration));
-  setInterval(resetAndRestart, maxDuration);
-})();
+    this.elements = this.generateConfig();
+    this.createElements(this.elements);
+    this.animateElements(this.elements);
+    this.startTime = Date.now();
+    this.timerRunning = true;
+    this.updateTimer();
+    
+    const maxDuration = Math.max(...this.elements.map((item) => item.timeline.duration));
+    this.resetInterval = setInterval(() => this.resetAndRestart(), maxDuration);
+  }
+
+  onConfigUpdate() {
+    if (this.resetInterval) {
+      clearInterval(this.resetInterval);
+    }
+
+    const elements = this.gridContainer.querySelectorAll(".centered-text");
+    elements.forEach((element) => element.remove());
+
+    this.elements = this.generateConfig();
+    this.createElements(this.elements);
+    this.animateElements(this.elements);
+    this.startTime = Date.now();
+
+    const maxDuration = Math.max(...this.elements.map((item) => item.timeline.duration));
+    this.resetInterval = setInterval(() => this.resetAndRestart(), maxDuration);
+  }
+
+  cleanup() {
+    this.timerRunning = false;
+    if (this.timerAnimationId) {
+      cancelAnimationFrame(this.timerAnimationId);
+    }
+    if (this.resetInterval) {
+      clearInterval(this.resetInterval);
+    }
+    if (this.timerElement && this.timerElement.parentNode) {
+      this.timerElement.remove();
+    }
+    if (this.gridContainer) {
+      this.gridContainer.innerHTML = '';
+    }
+  }
+}
+
+export async function init() {
+  const moduleManager = new ModuleManager();
+  await moduleManager.init(VisionTestModule);
+}

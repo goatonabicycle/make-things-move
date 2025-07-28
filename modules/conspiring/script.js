@@ -1,5 +1,6 @@
-(async function () {
-  class ConspiringModule {
+import { ModuleManager } from '../../moduleManager.js';
+
+class ConspiringModule {
     constructor() {
       this.container = null;
       this.elements = [];
@@ -326,6 +327,7 @@
     }
   }
 
+export async function init() {
   const moduleManager = new ModuleManager();
   await moduleManager.init(ConspiringModule);
-})();
+}

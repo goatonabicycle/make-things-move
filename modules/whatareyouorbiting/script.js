@@ -1,5 +1,6 @@
-(async function () {
-  class OrbitingModule {
+import { ModuleManager } from '../../moduleManager.js';
+
+class OrbitingModule {
     constructor() {
       this.container = null;
       this.intervalId = null;
@@ -142,6 +143,7 @@
     }
   }
 
+export async function init() {
   const moduleManager = new ModuleManager();
   await moduleManager.init(OrbitingModule);
-})();
+}

@@ -1,5 +1,6 @@
-(async function () {
-  class WeAreHereModule {
+import { ModuleManager } from '../../moduleManager.js';
+
+class WeAreHereModule {
     constructor() {
       this.container = null;
 
@@ -187,6 +188,7 @@
     }
   }
 
+export async function init() {
   const moduleManager = new ModuleManager();
   await moduleManager.init(WeAreHereModule);
-})();
+}

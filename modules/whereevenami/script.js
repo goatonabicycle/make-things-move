@@ -1,5 +1,6 @@
-(async function () {
-  class WhereEvenAmIModule {
+import { ModuleManager } from '../../moduleManager.js';
+
+class WhereEvenAmIModule {
     constructor() {
       this.canvas = null;
       this.ctx = null;
@@ -93,6 +94,7 @@
     }
   }
 
+export async function init() {
   const moduleManager = new ModuleManager();
   await moduleManager.init(WhereEvenAmIModule);
-})();
+}

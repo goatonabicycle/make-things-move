@@ -1,5 +1,11 @@
-(function() {
-const config = {
+import { ModuleManager } from '../../moduleManager.js';
+
+class UniqueDoesNotMeanGoodModule {
+  constructor() {
+    this.gridContainer = null;
+    this.intervalId = null;
+
+    this.config = {
   grid: {
     rows: { value: 50, min: 10, max: 100, step: 5, label: 'Rows' },
     columns: { value: 50, min: 10, max: 100, step: 5, label: 'Columns' },
@@ -14,106 +20,102 @@ const config = {
     useLatin: { value: true, type: 'boolean', label: 'Latin Letters' },
     colorCount: { value: 8, min: 2, max: 16, step: 1, label: 'Colors' }
   }
-};
+    };
 
-let panel;
-let gridContainer;
-let intervalId = null;
-
-const baseColors = [
+    this.baseColors = [
   "#8F8CE7", "#FF8C00", "#DC143C", "#D8DCD6",
   "#42B395", "#FF81C0", "#4B0082", "#7FFF00",
   "#FF4500", "#9370DB", "#20B2AA", "#FF69B4",
   "#00FA9A", "#8A2BE2", "#FF6347", "#4682B4"
-];
+    ];
 
-const characters = {
+    this.characters = {
   greek: ["Ω", "λ", "δ", "ψ", "π", "ξ", "η", "θ", "ζ", "χ", "φ", "β", "μ", "τ", "γ", "κ"],
   latin: ["-", "X", "V", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
     "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
-};
-
-const getRandomInt = (max) => Math.floor(Math.random() * max);
-
-function getAvailableCharacters() {
-  let chars = [];
-  if (config.appearance.useGreek.value) chars = chars.concat(characters.greek);
-  if (config.appearance.useLatin.value) chars = chars.concat(characters.latin);
-  return chars.length ? chars : ["-"];
-}
-
-function getAvailableColors() {
-  return baseColors.slice(0, config.appearance.colorCount.value);
-}
-
-function createGrid() {
-  gridContainer.innerHTML = "";
-  gridContainer.style.gridTemplateRows = `repeat(${config.grid.rows.value}, 1fr)`;
-  gridContainer.style.gridTemplateColumns = `repeat(${config.grid.columns.value}, 1fr)`;
-
-  const fragment = document.createDocumentFragment();
-  for (let i = 0; i < config.grid.rows.value * config.grid.columns.value; i++) {
-    const cell = document.createElement("div");
-    cell.className = "grid-item";
-    fragment.appendChild(cell);
+    };
   }
-  gridContainer.appendChild(fragment);
-}
 
-function placeRandomDivs() {
-  const totalCells = config.grid.rows.value * config.grid.columns.value;
-  const availableChars = getAvailableCharacters();
-  const availableColors = getAvailableColors();
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
 
-  function move() {
-    const existingItems = gridContainer.querySelectorAll(".random-item");
-    existingItems.forEach((item) => item.remove());
+  getAvailableCharacters() {
+    let chars = [];
+    if (this.config.appearance.useGreek.value) chars = chars.concat(this.characters.greek);
+    if (this.config.appearance.useLatin.value) chars = chars.concat(this.characters.latin);
+    return chars.length ? chars : ["-"];
+  }
 
-    for (let i = 0; i < config.grid.items.value; i++) {
-      const randomCellIndex = getRandomInt(totalCells);
-      const randomCell = gridContainer.children[randomCellIndex];
+  getAvailableColors() {
+    return this.baseColors.slice(0, this.config.appearance.colorCount.value);
+  }
 
-      if (randomCell) {
-        const randomDiv = document.createElement("div");
-        randomDiv.className = "random-item";
-        randomDiv.textContent = availableChars[getRandomInt(availableChars.length)];
-        randomDiv.style.backgroundColor = availableColors[getRandomInt(availableColors.length)];
-        randomDiv.style.fontSize = `${config.animation.fontSize.value}rem`;
-        randomCell.appendChild(randomDiv);
+  createGrid() {
+    this.gridContainer.innerHTML = "";
+    this.gridContainer.style.gridTemplateRows = `repeat(${this.config.grid.rows.value}, 1fr)`;
+    this.gridContainer.style.gridTemplateColumns = `repeat(${this.config.grid.columns.value}, 1fr)`;
+
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < this.config.grid.rows.value * this.config.grid.columns.value; i++) {
+      const cell = document.createElement("div");
+      cell.className = "grid-item";
+      fragment.appendChild(cell);
+    }
+    this.gridContainer.appendChild(fragment);
+  }
+
+  placeRandomDivs() {
+    const totalCells = this.config.grid.rows.value * this.config.grid.columns.value;
+    const availableChars = this.getAvailableCharacters();
+    const availableColors = this.getAvailableColors();
+
+    const move = () => {
+      const existingItems = this.gridContainer.querySelectorAll(".random-item");
+      existingItems.forEach((item) => item.remove());
+
+      for (let i = 0; i < this.config.grid.items.value; i++) {
+        const randomCellIndex = this.getRandomInt(totalCells);
+        const randomCell = this.gridContainer.children[randomCellIndex];
+
+        if (randomCell) {
+          const randomDiv = document.createElement("div");
+          randomDiv.className = "random-item";
+          randomDiv.textContent = availableChars[this.getRandomInt(availableChars.length)];
+          randomDiv.style.backgroundColor = availableColors[this.getRandomInt(availableColors.length)];
+          randomDiv.style.fontSize = `${this.config.animation.fontSize.value}rem`;
+          randomCell.appendChild(randomDiv);
+        }
       }
+    };
+
+    clearInterval(this.intervalId);
+    this.intervalId = setInterval(move, this.config.animation.speed.value);
+    move();
+  }
+
+  init() {
+    this.gridContainer = document.getElementById("grid-container");
+    this.createGrid();
+    this.placeRandomDivs();
+  }
+
+  onConfigUpdate() {
+    this.createGrid();
+    this.placeRandomDivs();
+  }
+
+  cleanup() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+    if (this.gridContainer) {
+      this.gridContainer.innerHTML = '';
     }
   }
-
-  clearInterval(intervalId);
-  intervalId = setInterval(move, config.animation.speed.value);
-  move();
 }
 
-function init() {
-  gridContainer = document.getElementById("grid-container");
-
-  panel = new ConfigPanel(config, () => {
-    createGrid();
-    placeRandomDivs();
-  });
-
-  createGrid();
-  placeRandomDivs();
+export async function init() {
+  const moduleManager = new ModuleManager();
+  await moduleManager.init(UniqueDoesNotMeanGoodModule);
 }
-
-function cleanup() {
-  if (panel) {
-    panel.destroy();
-  }
-  if (intervalId) {
-    clearInterval(intervalId);
-  }
-  if (gridContainer) {
-    gridContainer.innerHTML = '';
-  }
-}
-
-init();
-window.cleanup = cleanup;
-window.addEventListener('beforeunload', cleanup);
-})();
