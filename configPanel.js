@@ -5,7 +5,45 @@ class ConfigPanel {
     this.panel = null;
     this.toggleButton = null;
     this.isOpen = false;
+    this.moduleName = this.getModuleName();
+    this.loadConfig();
     this.init();
+  }
+
+  getModuleName() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("m") || "default";
+  }
+
+  loadConfig() {
+    const stored = localStorage.getItem(`config_${this.moduleName}`);
+    if (stored) {
+      try {
+        const savedConfig = JSON.parse(stored);
+        Object.entries(savedConfig).forEach(([category, params]) => {
+          if (this.config[category]) {
+            Object.entries(params).forEach(([key, value]) => {
+              if (this.config[category][key]) {
+                this.config[category][key].value = value;
+              }
+            });
+          }
+        });
+      } catch (e) {
+        console.error('Failed to load saved config:', e);
+      }
+    }
+  }
+
+  saveConfig() {
+    const toSave = {};
+    Object.entries(this.config).forEach(([category, params]) => {
+      toSave[category] = {};
+      Object.entries(params).forEach(([key, setting]) => {
+        toSave[category][key] = setting.value;
+      });
+    });
+    localStorage.setItem(`config_${this.moduleName}`, JSON.stringify(toSave));
   }
 
   init() {
@@ -289,6 +327,7 @@ class ConfigPanel {
           checkbox.onchange = () => {
             setting.value = checkbox.checked;
             value.textContent = checkbox.checked ? 'ON' : 'OFF';
+            this.saveConfig();
             this.onChange(this.config);
           };
 
@@ -306,6 +345,7 @@ class ConfigPanel {
           slider.oninput = () => {
             setting.value = parseFloat(slider.value);
             value.textContent = Number(slider.value).toFixed(1);
+            this.saveConfig();
             this.onChange(this.config);
           };
 

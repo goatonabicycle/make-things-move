@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const loadModuleContent = async (moduleName) => {
     const moduleContent = document.getElementById("module-content");
+    moduleContent.classList.add("loading");
 
     try {
       moduleContent.innerHTML = "";
@@ -35,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
         loadScript("/moduleManager.js")
       ]);
 
-
       const html = await fetch(`modules/${moduleName}/index.html`).then(res => res.text());
       moduleContent.innerHTML = `<div class="module-frame">${html}</div>`;
 
@@ -52,7 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
     } catch (error) {
-      moduleContent.innerHTML = `<div class="default">Failed to load module: ${moduleName}</div>`;
+      moduleContent.innerHTML = `
+        <div class="error-container">
+          <div class="error-message">
+            <h3>Failed to load module: ${moduleName}</h3>
+            <button onclick="location.reload()" class="retry-button">Retry</button>
+          </div>
+        </div>
+      `;
+    } finally {
+      moduleContent.classList.remove("loading");
     }
   };
 
