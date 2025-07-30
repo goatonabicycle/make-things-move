@@ -292,7 +292,7 @@ class VisionTestModule {
   }
 
   init() {
-    this.gridContainer = document.getElementById("grid-container");
+    this.gridContainer = document.getElementById("moduleContainer");
     
     this.timerElement = document.createElement("div");
     this.timerElement.style.cssText = `

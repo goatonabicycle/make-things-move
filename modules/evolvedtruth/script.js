@@ -2,12 +2,14 @@ import { ModuleManager } from '../../moduleManager.js';
 
 class EvolvedTruthModule {
     constructor() {
-      this.checkboxContainer = document.getElementById("checkboxContainer");
+      this.checkboxContainer = null;
       this.container = null;
       this.middle = null;
       this.allBoxes = [];
       this.animationId = null;
       this.particles = [];
+      this.intervals = [];
+      this.eventListeners = [];
 
       this.config = {
         grid: {
@@ -34,7 +36,6 @@ class EvolvedTruthModule {
       };
 
       this.currentHue = 0;
-      this.setupBackground();
     }
 
     setupBackground() {
@@ -307,9 +308,17 @@ class EvolvedTruthModule {
     }
 
     async init() {
-      this.createGrid();
-      this.animate();
+      this.checkboxContainer = document.getElementById("moduleContainer");
+      if (!this.checkboxContainer) return;
+      
+      this.setupModule();
+      this.startAnimation();
+    }
 
+    setupModule() {
+      this.setupBackground();
+      this.createGrid();
+      
       const style = document.createElement('style');
       style.textContent = `
         @keyframes pulse {
@@ -318,6 +327,10 @@ class EvolvedTruthModule {
         }
       `;
       document.head.appendChild(style);
+    }
+
+    startAnimation() {
+      this.animate();
     }
 
     onConfigUpdate() {
@@ -329,10 +342,19 @@ class EvolvedTruthModule {
         cancelAnimationFrame(this.animationId);
         this.animationId = null;
       }
+      this.intervals.forEach(id => clearInterval(id));
+      this.intervals = [];
+      this.eventListeners.forEach(({element, event, handler}) => {
+        element.removeEventListener(event, handler);
+      });
+      this.eventListeners = [];
       this.particles.forEach(p => p.element.remove());
       this.particles = [];
       this.allBoxes.forEach(box => box.remove());
       this.allBoxes = [];
+      if (this.checkboxContainer) {
+        this.checkboxContainer.innerHTML = '';
+      }
     }
   }
 

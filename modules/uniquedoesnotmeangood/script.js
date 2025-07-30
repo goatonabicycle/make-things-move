@@ -95,7 +95,7 @@ class UniqueDoesNotMeanGoodModule {
   }
 
   init() {
-    this.gridContainer = document.getElementById("grid-container");
+    this.gridContainer = document.getElementById("moduleContainer");
     this.createGrid();
     this.placeRandomDivs();
   }

@@ -95,7 +95,7 @@ class BranchingModule {
     }
 
     init() {
-      this.container = document.getElementById("animationContainer");
+      this.container = document.getElementById("moduleContainer");
       if (!this.container) {
         console.error("Container not found!");
         return;

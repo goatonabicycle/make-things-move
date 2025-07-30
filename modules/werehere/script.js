@@ -55,7 +55,7 @@ class WeAreHereModule {
     }
 
     createGrid() {
-      this.container = document.getElementById("grid-container");
+      this.container = document.getElementById("moduleContainer");
       if (!this.container) {
         console.error("Container not found!");
         return;
@@ -163,8 +163,10 @@ class WeAreHereModule {
 
     init() {
       this.createGrid();
-      this.container.addEventListener("mousemove", this.mouseInteraction.bind(this));
-      this.container.addEventListener("mouseleave", this.clearItems.bind(this));
+      if (this.container) {
+        this.container.addEventListener("mousemove", this.mouseInteraction.bind(this));
+        this.container.addEventListener("mouseleave", this.clearItems.bind(this));
+      }
     }
 
     onConfigUpdate() {

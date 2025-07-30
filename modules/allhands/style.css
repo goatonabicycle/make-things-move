@@ -1,0 +1,18 @@
+#moduleContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000000;
+  cursor: none;
+}
+
+.hand {
+  filter: grayscale(100%);
+  transition: transform 0.1s ease-out;
+  transform-origin: center;
+  user-select: none;
+  pointer-events: none;
+}

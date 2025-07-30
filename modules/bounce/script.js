@@ -5,6 +5,8 @@ class BouncyModule {
     this.container = null;
     this.squares = [];
     this.animationId = null;
+    this.intervals = [];
+    this.eventListeners = [];
 
     this.config = {
       squares: {
@@ -105,14 +107,20 @@ class BouncyModule {
   }
 
   async init() {
-    this.container = document.getElementById('animationContainer');
+    this.container = document.getElementById('moduleContainer');
     if (!this.container) return;
+    
+    this.setupModule();
+    this.startAnimation();
+  }
 
+  setupModule() {
     this.container.style.position = 'relative';
     this.container.style.overflow = 'hidden';
-
     this.createSquares();
-    
+  }
+
+  startAnimation() {
     const animate = () => {
       this.update();
       this.animationId = requestAnimationFrame(animate);
@@ -132,9 +140,19 @@ class BouncyModule {
   cleanup() {
     if (this.animationId) {
       cancelAnimationFrame(this.animationId);
+      this.animationId = null;
     }
+    this.intervals.forEach(id => clearInterval(id));
+    this.intervals = [];
+    this.eventListeners.forEach(({element, event, handler}) => {
+      element.removeEventListener(event, handler);
+    });
+    this.eventListeners = [];
     this.squares.forEach(square => square.element.remove());
     this.squares = [];
+    if (this.container) {
+      this.container.innerHTML = '';
+    }
   }
 }
 

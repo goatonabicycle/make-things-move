@@ -3,6 +3,8 @@ import { ModuleManager } from '../../moduleManager.js';
 class MSPaintModule {
     constructor() {
       this.container = null;
+      this.intervals = [];
+      this.eventListeners = [];
       this.colors = ["#FF6347", "#40E0D0", "#DAA520", "#FF69B4", "#BA55D3"];
 
       this.config = {
@@ -114,12 +116,16 @@ class MSPaintModule {
       }
     }
 
-    init() {
-      this.container = document.getElementById("animationContainer");
+    async init() {
+      this.container = document.getElementById("moduleContainer");
       if (!this.container) {
         console.error("Container not found!");
         return;
       }
+      this.setupModule();
+    }
+
+    setupModule() {
       this.regenerateShapes();
     }
 
@@ -128,7 +134,16 @@ class MSPaintModule {
     }
 
     cleanup() {
+      this.intervals.forEach(id => clearInterval(id));
+      this.intervals = [];
+      this.eventListeners.forEach(({element, event, handler}) => {
+        element.removeEventListener(event, handler);
+      });
+      this.eventListeners = [];
       this.clearShapes();
+      if (this.container) {
+        this.container.innerHTML = '';
+      }
     }
   }
 

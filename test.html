@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Module Loading</title>
+</head>
+<body>
+    <h1>Test Module Loading</h1>
+    <p>Open browser DevTools console and check for errors.</p>
+    <div id="moduleContainer"></div>
+    
+    <script type="module">
+        console.log('Testing module loading...');
+        
+        try {
+            const module = await import('./modules/bounce/script.js');
+            console.log('Module loaded:', module);
+            
+            if (module.init) {
+                await module.init();
+                console.log('Module initialized successfully');
+            }
+        } catch (error) {
+            console.error('Module loading failed:', error);
+        }
+    </script>
+</body>
+</html>

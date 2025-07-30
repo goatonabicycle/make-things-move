@@ -267,7 +267,7 @@ class ConspiringModule {
     }
 
     init() {
-      this.container = document.getElementById("grid-container");
+      this.container = document.getElementById("moduleContainer");
       if (!this.container) {
         console.error("Container not found!");
         return;

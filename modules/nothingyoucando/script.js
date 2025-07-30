@@ -21,7 +21,7 @@ class NothingYouCanDoModule {
     this.canvas = document.createElement('canvas');
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-    document.getElementById('grid-container').appendChild(this.canvas);
+    document.getElementById('moduleContainer').appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d');
 
     this.base = {

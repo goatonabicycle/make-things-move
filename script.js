@@ -32,13 +32,21 @@ const loadModuleContent = async (moduleName) => {
     const html = await fetch(`modules/${moduleName}/index.html`).then(res => res.text());
     moduleContent.innerHTML = `<div class="module-frame">${html}</div>`;
 
-    // Dynamically import the module
-    const module = await import(`./modules/${moduleName}/script.js`);
-
-    // Initialize the module
-    if (module.init) {
-      await module.init();
-    }
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.id = 'module-script';
+    script.textContent = `
+      import('./modules/${moduleName}/script.js?v=${Date.now()}')
+        .then(module => {
+          if (module.init) {
+            return module.init();
+          }
+        })
+        .catch(error => {
+          console.error('Module initialization error:', error);
+        });
+    `;
+    document.head.appendChild(script);
 
     const link = document.createElement("link");
     link.rel = "stylesheet";
